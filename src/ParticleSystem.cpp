@@ -44,6 +44,7 @@ void ParticleSystem::update(const ci::Vec2f pos){
 	}
 
 }
+
 void ParticleSystem::draw(const ci::Vec2f pos){
 
 	gl::enableAlphaBlending();

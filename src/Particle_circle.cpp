@@ -11,59 +11,44 @@ using namespace ci::app;
 #include "Resources.h"
 
 Particle_circle::Particle_circle(const Vec2f& pos){
-	mId = 0;
-	Vec3f pos3f = Vec3f(pos.x, pos.y, 0);
-	addPosition(pos3f);
-	mAnchorPosition = pos3f;
-	mAngle = 0;
+	mAnchorPosition = Vec3f(getWindowWidth() * .5f, getWindowHeight() *.5f, 0);
 
-	mMinRadius = 5.f; mMaxRadius = 10.f;
-	mRadius = 10.f;// randFloat(mMaxRadius - mMinRadius) + mMinRadius;
+	for (int i = 0; i < 36; i++)
+	{
+		Vec3f pos3f = Vec3f(getWindowWidth() * .5f, getWindowHeight() *.5f, 0);
+		addPosition(pos3f);
+	}
+
+	mAngle = 2 * M_PI / mPositions.size();
+
+	mRadius = 100.f;
 	mRadiusAnchor = mRadius;
 
-	mColor = Color::white();
+	mColor = ci::Color(0.f, 0.f, 1.f);
 	mOverlayColor = Color::white();
 	mDrag = 1.0f;
 
-	//mVel = Vec3f(0, -randFloat(20) - 20.f, 0);
-	mLifespan = 0;
+	mVel = Vec3f(0, 30.f, 50 * sin(getElapsedSeconds())); //this is a base, we will rotate it based on mAnchorPosition
+	mLifespan = 100;
 
-	mColor = ColorA(1,1,1,1);
 }
 
 void Particle_circle::update(const ci::Vec2f pos){
-
 	mAge++;
 	if (mAge > mLifespan)
 		mIsDead = true;
 
 	mAgeMap = 1.0f - (mAge / (float)mLifespan);
-
-	Vec3f newPos = Vec3f(mPositions.front());
+	
 	mVel += mAcc;
 	mVel *= mDrag;
-	newPos += mVel;
-	addPosition(newPos);
 
-	Vec2f temp(mVel.x, mVel.y);
-	temp.safeNormalize();
-	mAngle = 180 + angle(temp);
-}
-
-void Particle_circle::draw(const bool overlay, const ci::Vec2f pos){
-	ColorA adjustedColor;
-	if (!overlay)
-		adjustedColor = ColorA(mColor);
-	else
+	Vec3f mVelRotated = Vec3f(mVel);
+	Matrix44f rotMatrix = Matrix44f::createRotation(Vec3f(0, 0, 1), mAngle);
+	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
 	{
-		adjustedColor = Color::white();
+		Vec3f &currentPos = *iter;
+		currentPos += mVelRotated;
+		mVelRotated = rotMatrix * mVelRotated;
 	}
-
-	Vec3f &loc = mPositions.front();
-	gl::lineWidth(2.f);
-	glBegin(GL_LINES);
-	gl::vertex(pos);
-	gl::vertex(loc);
-	glEnd();
-
 }
