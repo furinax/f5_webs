@@ -112,17 +112,24 @@
     <ClCompile Include="..\src\ParticleFactory.cpp" />
     <ClCompile Include="..\src\ParticleSystem.cpp" />
     <ClCompile Include="..\src\Particle_circle.cpp" />
+    <ClCompile Include="..\src\Particle_halo.cpp" />
+    <ClCompile Include="..\src\Particle_text.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Particle.h" />
     <ClInclude Include="..\include\ParticleFactory.h" />
     <ClInclude Include="..\include\ParticleSystem.h" />
     <ClInclude Include="..\include\Particle_circle.h" />
+    <ClInclude Include="..\include\Particle_halo.h" />
     <ClInclude Include="..\include\Resources.h" />
+    <ClInclude Include="..\src\Particle_text.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\blur_frag.glsl" />
     <None Include="..\resources\blur_vert.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\resources\furinax.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

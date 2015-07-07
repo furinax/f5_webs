@@ -4,10 +4,14 @@
 #include "ParticleSystem.h"
 #include "cinder/app/AppNative.h"
 #include "Particle_circle.h"
+#include "Particle_text.h"
+#include "Particle_halo.h"
 
 enum particle_choice
 {
 	PARTICLE_CIRCLE, //0
+	PARTICLE_TEXT, //1
+	PARTICLE_HALO, //2
 };
 
 class ParticleFactory

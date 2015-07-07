@@ -1,4 +1,4 @@
-#include "Particle_circle.h"
+#include "Particle_text.h"
 #include <iterator>
 
 using namespace ci;
@@ -10,34 +10,43 @@ using namespace ci::app;
 #include "cinder/gl/GlslProg.h"
 #include "Resources.h"
 
-Particle_circle::Particle_circle(const Vec2f& pos){
-	mAnchorPosition = Vec3f(getWindowWidth() * .5f, getWindowHeight() *.5f, 0);
+Channel32f Particle_text::mChannel = Channel32f();
 
-	for (int i = 0; i < 36; i++)
+Particle_text::Particle_text(const Vec2f& pos){
+
+	if (!mChannel)
+		mChannel = Channel32f(loadImage(loadResource(RES_LOGO)));
+
+
+
+	mAnchorPosition = Vec3f(160, 180, 0);
+	for (int i = 0; i < mChannel.getWidth(); i += 5)
 	{
-		Vec3f pos3f = Vec3f(getWindowWidth() * .5f, getWindowHeight() *.5f, 0);
-		addPosition(pos3f);
+		for (int j = 0; j < mChannel.getHeight(); j  += 5)
+		{
+			Vec3f pos3f = Vec3f(i, j, 200) + mAnchorPosition;
+			if (mChannel.getValue(Vec2f(i,j))==0.f)
+				addPosition(pos3f);
+		}
 	}
 
-	mAngle = 2 * M_PI / mPositions.size();
+	mRadius = 50.f;
 
-	mRadius = 100.f;
-
-	mColor = ci::Color(0.f, 0.f, 1.f);
+	mColor = ci::Color(0.2f, 1.f, 0.2f);
 	mOverlayColor = Color::white();
 
-	mVel = Vec3f(0, 30.f, 50 * sin(getElapsedSeconds())); //this is a base, we will rotate it based on mAnchorPosition
-	mLifespan = 100;
+	mVel = Vec3f(1.f,0,0);
+	mLifespan = 1000;
 
 }
 
-void Particle_circle::update(const ci::Vec2f pos){
+void Particle_text::update(const ci::Vec2f pos){
 	mAge++;
 	if (mAge > mLifespan)
 		mIsDead = true;
 
 	mAgeMap = 1.0f - (mAge / (float)mLifespan);
-	
+
 	mVel += mAcc;
 	mVel *= mDrag;
 

@@ -5,6 +5,7 @@
 #include "cinder/app/AppNative.h"
 #include "cinder/Rand.h"
 #include "cinder/Perlin.h"
+#include "cinder/CinderMath.h"
 #include <iterator>
 #include <list>
 
@@ -13,14 +14,14 @@ class Particle{
 public:
 
 	virtual void update(const ci::Vec2f pos) = 0;
-	virtual void draw(const bool overlay, const ci::Vec2f pos) = 0;
+	void draw(const bool overlay, const ci::Vec2f pos);
 	void addPosition(const ci::Vec3f & pos);
 	float angle(const ci::Vec2f &lhs);
+	void drawPositions();
 
 	//position members
 	int mId;
 	std::list<ci::Vec3f> mPositions;
-	int mMaxPositions = 2; //keeps track of how many points we want to save.... it works like a queue
 	ci::Vec3f mAnchorPosition;
 	ci::Vec3f mVel, mAcc;
 	float mDrag = 1.f;
