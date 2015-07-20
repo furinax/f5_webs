@@ -8,6 +8,7 @@
 #include "cinder/CinderMath.h"
 #include <iterator>
 #include <list>
+#include "Listener.h"
 
 
 class Particle{
@@ -42,6 +43,7 @@ public:
 
 	//other members
 	static ci::Perlin mPerlin;
+	static Listener& mListener;
 	float mOrientation = 0.f; //used for rotation, angle, etc
 
 };

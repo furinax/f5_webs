@@ -23,8 +23,8 @@ Particle_field::Particle_field(const Vec2f& pos){
 		addPosition(Vec3f(0, getWindowHeight() / 30 * i, 0));
 	}
 
-	mColor = ci::Color(1.f, 1.f, 1.f);
-	mOverlayColor = Color::white();
+	mColor = ci::Color(1.f, .6f, .2f);
+	mOverlayColor = ci::Color(1.f, .6f, .2f);
 
 	mVel = Vec3f(10,0,-2);
 	mAcc = Vec3f(0,0, 0);
@@ -43,15 +43,42 @@ void Particle_field::update(const ci::Vec2f pos){
 	mVel *= mDrag;
 
 	Vec3f mVelRotated = Vec3f(mVel);
-	//Matrix44f rotMatrix = Matrix44f::createRotation(Vec3f(0, 0, 1), mAngle);
 
 	for (auto i = mPositions.begin(); i != mPositions.end(); i++)
 	{
 		Vec3f &currentPos = *i;
 		
-		//currentPos += mVelRotated;
 		currentPos += mVelRotated;
-		//mVelRotated = rotMatrix * mVelRotated;
-		//mVelRotated += mAcc;
 	}
+}
+
+void Particle_field::draw(const bool overlay, const ci::Vec2f pos){
+
+	ColorA adjustedColor;
+	if (!overlay)
+		adjustedColor = ColorA(mColor);
+	else
+	{
+		adjustedColor = ColorA(mOverlayColor);
+	}
+
+	Listener& listener = Listener::getInstance();
+
+	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
+	{
+		Vec3f &loc = *iter;
+		float distance = loc.distance(Vec3f(getWindowCenter(), 0));
+		if (distance < mRadius)
+		{
+			adjustedColor.a = listener.getVolume() > 1 - (loc.y / getWindowHeight()) ? 1.f : .05f;
+			gl::color(adjustedColor);
+			gl::lineWidth(ci::math<float>::clamp(ci::lmap(loc.z, -500.f, 500.f, 0.f, 3.f), 0.f, 3.f));
+			glBegin(GL_LINES);
+			gl::vertex(getWindowCenter());
+			gl::vertex(loc);
+			glEnd();
+		}
+	}
+
+	drawPositions();
 }

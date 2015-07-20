@@ -4,6 +4,7 @@
 #include "ParticleFactory.h"
 #include "cinder/params/Params.h"
 #include "cinder/Camera.h"
+#include "Listener.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -55,6 +56,10 @@ void f5_websApp::setup()
 	mParams.addSeparator();
 	mParams.addParam("Total particles", &mTotalParticles, "readonly=1");
 	//mParams.addParam("Scene Rotation", &mSceneRotation);
+
+	// SETUP LISTENER
+	Listener& listener = Listener::getInstance();
+	listener.setup();
 }
 
 void f5_websApp::mouseUp(MouseEvent event)
@@ -85,6 +90,11 @@ void f5_websApp::update()
 	/*mCam.lookAt(mEye, mCenter, mUp);
 	gl::setMatrices(mCam);
 	gl::rotate(mSceneRotation);*/
+
+	// UPDATE LISTENER
+	Listener& listener = Listener::getInstance();
+	listener.update();
+	console() << listener.getVolume() << std::endl;
 
 	// UPDATE PARTICLE SYSTEMS
 	int particleCount = 0;

@@ -60,6 +60,9 @@
     <ClCompile Include="..\src\Particle_spring.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Listener.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -95,10 +98,13 @@
     <ClInclude Include="..\src\Particle_flat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Particle_field.h">
+    <ClInclude Include="..\include\Particle_spring.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\Particle_spring.h">
+    <ClInclude Include="..\include\Listener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Particle_field.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

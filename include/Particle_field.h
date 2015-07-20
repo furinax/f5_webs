@@ -10,6 +10,7 @@ class Particle_field : public Particle{
 public:
 	Particle_field(const ci::Vec2f& position);
 	void update(const ci::Vec2f pos);
+	void draw(const bool overlay, const ci::Vec2f pos);
 
 	static int mThrottle;
 	static const int mThrottleMax = 50;

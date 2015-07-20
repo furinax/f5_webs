@@ -5,6 +5,7 @@ using namespace ci;
 using namespace ci::app;
 
 Perlin Particle::mPerlin;
+Listener& Particle::mListener = Listener::getInstance();
 
 void Particle::addPosition(const Vec3f& pos)
 {

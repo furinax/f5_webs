@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\f5_websApp.cpp" />
+    <ClCompile Include="..\src\Listener.cpp" />
     <ClCompile Include="..\src\Particle.cpp" />
     <ClCompile Include="..\src\ParticleFactory.cpp" />
     <ClCompile Include="..\src\ParticleSystem.cpp" />
@@ -122,14 +123,15 @@
     <ClCompile Include="..\src\Particle_text.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\Listener.h" />
     <ClInclude Include="..\include\Particle.h" />
     <ClInclude Include="..\include\ParticleFactory.h" />
     <ClInclude Include="..\include\ParticleSystem.h" />
     <ClInclude Include="..\include\Particle_circle.h" />
+    <ClInclude Include="..\include\Particle_field.h" />
     <ClInclude Include="..\include\Particle_halo.h" />
     <ClInclude Include="..\include\Particle_spring.h" />
     <ClInclude Include="..\include\Resources.h" />
-    <ClInclude Include="..\src\Particle_field.h" />
     <ClInclude Include="..\src\Particle_flat.h" />
     <ClInclude Include="..\src\Particle_helix.h" />
     <ClInclude Include="..\src\Particle_horizon.h" />
