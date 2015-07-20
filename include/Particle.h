@@ -14,7 +14,7 @@ class Particle{
 public:
 
 	virtual void update(const ci::Vec2f pos) = 0;
-	void draw(const bool overlay, const ci::Vec2f pos);
+	virtual void draw(const bool overlay, const ci::Vec2f pos);
 	void addPosition(const ci::Vec3f & pos);
 	float angle(const ci::Vec2f &lhs);
 	void drawPositions();
@@ -42,6 +42,6 @@ public:
 
 	//other members
 	static ci::Perlin mPerlin;
-	int mOrientation = 1; //used for rotation, angle, etc
+	float mOrientation = 0.f; //used for rotation, angle, etc
 
 };

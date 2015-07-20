@@ -51,7 +51,7 @@ void f5_websApp::setup()
 
 	// SETUP PARAMS
 	mParams = params::InterfaceGl("Parameters", Vec2i(200, 150));
-	mParams.addParam("Particle ID", &pf.d_particleToCreate, "min=0 max=2 keyIncr=+ keyDecr=-");
+	mParams.addParam("Particle ID", &pf.d_particleToCreate, "keyIncr=+ keyDecr=-");
 	mParams.addSeparator();
 	mParams.addParam("Total particles", &mTotalParticles, "readonly=1");
 	//mParams.addParam("Scene Rotation", &mSceneRotation);

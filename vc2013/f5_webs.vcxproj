@@ -112,7 +112,13 @@
     <ClCompile Include="..\src\ParticleFactory.cpp" />
     <ClCompile Include="..\src\ParticleSystem.cpp" />
     <ClCompile Include="..\src\Particle_circle.cpp" />
+    <ClCompile Include="..\src\Particle_field.cpp" />
+    <ClCompile Include="..\src\Particle_flat.cpp" />
     <ClCompile Include="..\src\Particle_halo.cpp" />
+    <ClCompile Include="..\src\Particle_helix.cpp" />
+    <ClCompile Include="..\src\Particle_horizon.cpp" />
+    <ClCompile Include="..\src\Particle_sphere.cpp" />
+    <ClCompile Include="..\src\Particle_spring.cpp" />
     <ClCompile Include="..\src\Particle_text.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -121,7 +127,13 @@
     <ClInclude Include="..\include\ParticleSystem.h" />
     <ClInclude Include="..\include\Particle_circle.h" />
     <ClInclude Include="..\include\Particle_halo.h" />
+    <ClInclude Include="..\include\Particle_spring.h" />
     <ClInclude Include="..\include\Resources.h" />
+    <ClInclude Include="..\src\Particle_field.h" />
+    <ClInclude Include="..\src\Particle_flat.h" />
+    <ClInclude Include="..\src\Particle_helix.h" />
+    <ClInclude Include="..\src\Particle_horizon.h" />
+    <ClInclude Include="..\src\Particle_sphere.h" />
     <ClInclude Include="..\src\Particle_text.h" />
   </ItemGroup>
   <ItemGroup>
