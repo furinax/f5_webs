@@ -12,6 +12,7 @@
 #include "Particle_flat.h"
 #include "Particle_field.h"
 #include "Particle_spring.h"
+#include "Particle_quad.h"
 
 enum particle_choice
 {
@@ -24,14 +25,15 @@ enum particle_choice
 	PARTICLE_FLAT, //6
 	PARTICLE_FIELD, //7
 	PARTICLE_SPRING, //8
+	PARTICLE_QUAD, //9
 };
 
 class ParticleFactory
 {
 public:
 	//create: for testing
-	void create(const double elapsedSeconds, const ci::Vec2f center, ParticleSystem & ps);
-	int d_particleToCreate = 7;
+	void create(const double elapsedSeconds, const std::list< ci::Vec2f > &vpos, ParticleSystem & ps);
+	int d_particleToCreate = 9;
 	double d_offsetTime = 0;
 	double d_adjustSeconds = 0.f; //negative means delay the visuals, positive means speed them up
 

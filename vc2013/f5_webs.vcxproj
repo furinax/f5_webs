@@ -118,6 +118,7 @@
     <ClCompile Include="..\src\Particle_halo.cpp" />
     <ClCompile Include="..\src\Particle_helix.cpp" />
     <ClCompile Include="..\src\Particle_horizon.cpp" />
+    <ClCompile Include="..\src\Particle_quad.cpp" />
     <ClCompile Include="..\src\Particle_sphere.cpp" />
     <ClCompile Include="..\src\Particle_spring.cpp" />
     <ClCompile Include="..\src\Particle_text.cpp" />
@@ -129,14 +130,15 @@
     <ClInclude Include="..\include\ParticleSystem.h" />
     <ClInclude Include="..\include\Particle_circle.h" />
     <ClInclude Include="..\include\Particle_field.h" />
+    <ClInclude Include="..\include\Particle_flat.h" />
     <ClInclude Include="..\include\Particle_halo.h" />
+    <ClInclude Include="..\include\Particle_helix.h" />
+    <ClInclude Include="..\include\Particle_horizon.h" />
+    <ClInclude Include="..\include\Particle_quad.h" />
+    <ClInclude Include="..\include\Particle_sphere.h" />
     <ClInclude Include="..\include\Particle_spring.h" />
+    <ClInclude Include="..\include\Particle_text.h" />
     <ClInclude Include="..\include\Resources.h" />
-    <ClInclude Include="..\src\Particle_flat.h" />
-    <ClInclude Include="..\src\Particle_helix.h" />
-    <ClInclude Include="..\src\Particle_horizon.h" />
-    <ClInclude Include="..\src\Particle_sphere.h" />
-    <ClInclude Include="..\src\Particle_text.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\blur_frag.glsl" />

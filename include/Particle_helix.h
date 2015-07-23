@@ -8,7 +8,7 @@
 
 class Particle_helix : public Particle{
 public:
-	Particle_helix(const ci::Vec2f& position);
-	void update(const ci::Vec2f pos);
+	Particle_helix(const std::list< ci::Vec2f > &vpos);
+	void update(const std::list< ci::Vec2f > &vpos);
 	ci::Vec3f getPosition(const float f);
 };

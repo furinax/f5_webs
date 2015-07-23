@@ -10,7 +10,7 @@ using namespace ci::app;
 #include "cinder/gl/GlslProg.h"
 #include "Resources.h"
 
-Particle_helix::Particle_helix(const Vec2f& pos){
+Particle_helix::Particle_helix(const std::list< ci::Vec2f > &vpos){
 	Vec3f pos1 = getPosition(mOrientation);
 
 	addPosition(pos1);
@@ -26,7 +26,7 @@ Particle_helix::Particle_helix(const Vec2f& pos){
 
 }
 
-void Particle_helix::update(const ci::Vec2f pos){
+void Particle_helix::update(const std::list< ci::Vec2f > &vpos){
 	mAge++;
 	if (mAge > mLifespan)
 		mIsDead = true;

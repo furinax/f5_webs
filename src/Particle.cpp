@@ -28,7 +28,7 @@ void Particle::drawPositions()
 	glEnd();
 }
 
-void Particle::draw(const bool overlay, const ci::Vec2f pos){
+void Particle::draw(const bool overlay, const std::list< ci::Vec2f > &vpos){
 
 	ColorA adjustedColor;
 	if (!overlay)
@@ -41,16 +41,19 @@ void Particle::draw(const bool overlay, const ci::Vec2f pos){
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
 	{
 		Vec3f &loc = *iter;
-		float distance = pos.distance(Vec2f(loc.x, loc.y));
-		if (distance < mRadius)
+		for (auto pos : vpos)
 		{
-			adjustedColor.a = ci::lmap(distance, 0.f, mRadius, 1.f, 0.f);
-			gl::color(adjustedColor);
-			gl::lineWidth(ci::math<float>::clamp(ci::lmap(loc.z, -500.f, 500.f, 0.f, 3.f),0.f,3.f));
-			glBegin(GL_LINES);
-			gl::vertex(pos);
-			gl::vertex(loc);
-			glEnd();
+			float distance = pos.distance(Vec2f(loc.x, loc.y));
+			if (distance < mRadius)
+			{
+				adjustedColor.a = ci::lmap(distance, 0.f, mRadius, 1.f, 0.f);
+				gl::color(adjustedColor);
+				gl::lineWidth(ci::math<float>::clamp(ci::lmap(loc.z, -500.f, 500.f, 0.f, 3.f), 0.f, 3.f));
+				glBegin(GL_LINES);
+				gl::vertex(pos);
+				gl::vertex(loc);
+				glEnd();
+			}
 		}
 	}
 	

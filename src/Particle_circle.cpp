@@ -10,7 +10,7 @@ using namespace ci::app;
 #include "cinder/gl/GlslProg.h"
 #include "Resources.h"
 
-Particle_circle::Particle_circle(const Vec2f& pos){
+Particle_circle::Particle_circle(const std::list< ci::Vec2f > &vpos){
 	mAnchorPosition = Vec3f(getWindowWidth() * .5f, getWindowHeight() *.5f, 0);
 
 	for (int i = 0; i < 36; i++)
@@ -31,7 +31,7 @@ Particle_circle::Particle_circle(const Vec2f& pos){
 
 }
 
-void Particle_circle::update(const ci::Vec2f pos){
+void Particle_circle::update(const std::list< ci::Vec2f > &vpos){
 	mAge++;
 	if (mAge > mLifespan)
 		mIsDead = true;

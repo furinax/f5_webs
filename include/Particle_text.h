@@ -9,8 +9,8 @@
 
 class Particle_text : public Particle{
 public:
-	Particle_text(const ci::Vec2f& position);
-	void update(const ci::Vec2f pos);
+	Particle_text(const std::list< ci::Vec2f > &vpos);
+	void update(const std::list< ci::Vec2f > &vpos);
 
 private:
 	static cinder::Channel32f mChannel;

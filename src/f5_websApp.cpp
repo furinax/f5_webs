@@ -20,7 +20,7 @@ class f5_websApp : public AppNative {
 	void mouseMove(MouseEvent event);
 	void mouseDrag(MouseEvent event);
 
-	Vec2f mMousePosition, mPrevPosition;
+	std::list< Vec2f > mMousePosition;
 	std::vector<ParticleSystem> pss;
 	bool mParticlesVisible = true;
 	ParticleFactory pf;
@@ -64,24 +64,20 @@ void f5_websApp::setup()
 
 void f5_websApp::mouseUp(MouseEvent event)
 {
-	mPrevPosition = mMousePosition;
-	mMousePosition = event.getPos();
+	mMousePosition = { event.getPos(), Vec2f(getWindowWidth() - event.getPos().x, getWindowHeight() - event.getPos().y ) };
 }
 void f5_websApp::mouseDown(MouseEvent event)
 {
-	mPrevPosition = mMousePosition;
-	mMousePosition = event.getPos();
+	mMousePosition = { event.getPos(), Vec2f(getWindowWidth() - event.getPos().x, getWindowHeight() - event.getPos().y) };
 }
 void f5_websApp::mouseDrag(MouseEvent event)
 {
-	mPrevPosition = mMousePosition;
-	mMousePosition = event.getPos();
+	mMousePosition = { event.getPos(), Vec2f(getWindowWidth() - event.getPos().x, getWindowHeight() - event.getPos().y) };
 }
 
 void f5_websApp::mouseMove(MouseEvent event)
 {
-	mPrevPosition = mMousePosition;
-	mMousePosition = event.getPos();
+	mMousePosition = { event.getPos(), Vec2f(getWindowWidth() - event.getPos().x, getWindowHeight() - event.getPos().y) };
 }
 
 void f5_websApp::update()

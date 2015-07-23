@@ -10,7 +10,7 @@ using namespace ci::app;
 #include "cinder/gl/GlslProg.h"
 #include "Resources.h"
 
-Particle_horizon::Particle_horizon(const Vec2f& pos){
+Particle_horizon::Particle_horizon(const std::list< ci::Vec2f > &vpos){
 	mAnchorPosition = Vec3f(-getElapsedFrames() % 100, getWindowHeight() *.4f, 0);
 	int offset = 10;
 	Vec3f center = Vec3f(getWindowCenter().x, getWindowCenter().y, 0.f);
@@ -42,7 +42,7 @@ Particle_horizon::Particle_horizon(const Vec2f& pos){
 
 }
 
-void Particle_horizon::update(const ci::Vec2f pos){
+void Particle_horizon::update(const std::list< ci::Vec2f > &vpos){
 	mAge++;
 	if (mAge > mLifespan)
 		mIsDead = true;

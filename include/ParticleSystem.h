@@ -18,8 +18,8 @@ public:
 	~ParticleSystem();
 
 	void setup();
-	void update(const ci::Vec2f pos);
-	void draw(const ci::Vec2f pos);
+	void update(const std::list< ci::Vec2f > &vpos);
+	void draw(const std::list< ci::Vec2f > &vpos);
 
 	void addParticle(Particle *particle);
 

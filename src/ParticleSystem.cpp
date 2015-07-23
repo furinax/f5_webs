@@ -30,7 +30,7 @@ void ParticleSystem::setup()
 
 }
 
-void ParticleSystem::update(const ci::Vec2f pos){
+void ParticleSystem::update(const std::list< ci::Vec2f > &vpos){
 	
 	for (std::vector<Particle*>::iterator it = mParticles.begin(); it != mParticles.end();){
 		if ((*it)->mIsDead) {
@@ -38,19 +38,19 @@ void ParticleSystem::update(const ci::Vec2f pos){
 			it = mParticles.erase(it);
 		}
 		else {
-			(*it)->update(pos);
+			(*it)->update(vpos);
 			++it;
 		}
 	}
 
 }
 
-void ParticleSystem::draw(const ci::Vec2f pos){
+void ParticleSystem::draw(const std::list< ci::Vec2f > &vpos){
 
 	gl::enableAlphaBlending();
 
 	for (std::vector<Particle*>::iterator it = mParticles.begin(); it != mParticles.end(); ++it){
-		(*it)->draw(false, pos);
+		(*it)->draw(false, vpos);
 	}
 	
 
@@ -65,7 +65,7 @@ void ParticleSystem::draw(const ci::Vec2f pos){
 	gl::color(Color::white());
 
 	for (std::vector<Particle*>::iterator it = mParticles.begin(); it != mParticles.end(); ++it){
-		(*it)->draw(false, pos);
+		(*it)->draw(false, vpos);
 	}
 
 	mFboBlurred.unbindFramebuffer();
@@ -110,7 +110,7 @@ void ParticleSystem::draw(const ci::Vec2f pos){
 	}
 
 	for (std::vector<Particle*>::iterator it = mParticles.begin(); it != mParticles.end(); ++it){
-		(*it)->draw(true, pos);
+		(*it)->draw(true, vpos);
 	}
 
 	gl::disableAlphaBlending();

@@ -10,7 +10,7 @@ using namespace ci::app;
 #include "cinder/gl/GlslProg.h"
 #include "Resources.h"
 
-Particle_halo::Particle_halo(const Vec2f& pos){
+Particle_halo::Particle_halo(const std::list< ci::Vec2f > &vpos){
 	mAnchorPosition = Vec3f(getWindowWidth() * .5f, getWindowHeight() *.5f, 0);
 
 	mAngle = 2.f * M_PI / 36.f;
@@ -32,7 +32,7 @@ Particle_halo::Particle_halo(const Vec2f& pos){
 
 }
 
-void Particle_halo::update(const ci::Vec2f pos){
+void Particle_halo::update(const std::list< ci::Vec2f > &vpos){
 	mAge++;
 	if (mAge > mLifespan)
 		mIsDead = true;

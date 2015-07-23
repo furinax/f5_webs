@@ -8,7 +8,7 @@
 
 class Particle_flat : public Particle{
 public:
-	Particle_flat(const ci::Vec2f& position);
-	void update(const ci::Vec2f pos);
-	virtual void draw(const bool overlay, const ci::Vec2f pos);
+	Particle_flat(const std::list< ci::Vec2f > &vpos);
+	void update(const std::list< ci::Vec2f > &vpos);
+	virtual void draw(const bool overlay, const std::list< ci::Vec2f > &vpos);
 };

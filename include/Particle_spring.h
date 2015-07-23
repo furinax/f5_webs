@@ -8,6 +8,6 @@
 
 class Particle_spring : public Particle{
 public:
-	Particle_spring(const ci::Vec2f& position);
-	void update(const ci::Vec2f pos);
+	Particle_spring(const std::list< ci::Vec2f > &vpos);
+	void update(const std::list< ci::Vec2f > &vpos);
 };

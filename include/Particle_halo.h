@@ -8,6 +8,6 @@
 
 class Particle_halo : public Particle{
 public:
-	Particle_halo(const ci::Vec2f& position);
-	void update(const ci::Vec2f pos);
+	Particle_halo(const std::list< ci::Vec2f > &vpos);
+	void update(const std::list< ci::Vec2f > &vpos);
 };

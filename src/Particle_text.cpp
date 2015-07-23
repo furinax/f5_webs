@@ -12,12 +12,10 @@ using namespace ci::app;
 
 Channel32f Particle_text::mChannel = Channel32f();
 
-Particle_text::Particle_text(const Vec2f& pos){
+Particle_text::Particle_text(const std::list< ci::Vec2f > &vpos){
 
 	if (!mChannel)
 		mChannel = Channel32f(loadImage(loadResource(RES_LOGO)));
-
-
 
 	mAnchorPosition = Vec3f(160, 180, 0);
 	for (int i = 0; i < mChannel.getWidth(); i += 5)
@@ -40,7 +38,7 @@ Particle_text::Particle_text(const Vec2f& pos){
 
 }
 
-void Particle_text::update(const ci::Vec2f pos){
+void Particle_text::update(const std::list< ci::Vec2f > &vpos){
 	mAge++;
 	if (mAge > mLifespan)
 		mIsDead = true;

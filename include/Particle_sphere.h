@@ -8,6 +8,6 @@
 
 class Particle_sphere : public Particle{
 public:
-	Particle_sphere(const ci::Vec2f& position);
-	void update(const ci::Vec2f pos);
+	Particle_sphere(const std::list< ci::Vec2f > &vpos);
+	void update(const std::list< ci::Vec2f > &vpos);
 };

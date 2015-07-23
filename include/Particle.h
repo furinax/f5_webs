@@ -14,8 +14,8 @@
 class Particle{
 public:
 
-	virtual void update(const ci::Vec2f pos) = 0;
-	virtual void draw(const bool overlay, const ci::Vec2f pos);
+	virtual void update(const std::list< ci::Vec2f > &vpos) = 0;
+	virtual void draw(const bool overlay, const std::list < ci::Vec2f> &vpos);
 	void addPosition(const ci::Vec3f & pos);
 	float angle(const ci::Vec2f &lhs);
 	void drawPositions();

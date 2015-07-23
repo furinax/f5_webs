@@ -8,6 +8,6 @@
 
 class Particle_horizon : public Particle{
 public:
-	Particle_horizon(const ci::Vec2f& position);
-	void update(const ci::Vec2f pos);
+	Particle_horizon(const std::list< ci::Vec2f > &vpos);
+	void update(const std::list< ci::Vec2f > &vpos);
 };
