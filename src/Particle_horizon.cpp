@@ -37,8 +37,8 @@ Particle_horizon::Particle_horizon(const std::list< ci::Vec2f > &vpos){
 	mOverlayColor = Color::white();
 
 	mVel = Vec3f(50.f, 0.f, 0.f);
-	mAcc = Vec3f(-1.f, 0, 0.f);
-	mLifespan = 130;
+	mAcc = Vec3f(0, 0, 0.f);
+	mLifespan = 100;
 
 }
 

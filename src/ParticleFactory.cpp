@@ -60,6 +60,26 @@ void ParticleFactory::create(const double elapsedSeconds, const std::list< ci::V
 			Particle* particle = new Particle_quad(vpos);
 			ps.addParticle(particle);
 		}break;
+		case PARTICLE_QUEUE:{
+			Particle* particle = new Particle_queue(vpos);
+			ps.addParticle(particle);
+		}break;
+		case PARTICLE_TORRENT:{
+			Particle* particle = new Particle_torrent(vpos);
+			ps.addParticle(particle);
+		}break;
+		case PARTICLE_HEX:{
+			Particle* particle = new Particle_hex(vpos);
+			ps.addParticle(particle);
+		}break;
+		case PARTICLE_TRAIL:{
+				Particle* particle = new Particle_trail( std::list<Vec2f>{ vpos });
+				ps.addParticle(particle);
+		}break;
+		case PARTICLE_FFT:{
+			Particle* particle = new Particle_fft(std::list<Vec2f>{ vpos });
+			ps.addParticle(particle);
+		}break;
 		default:
 			ci::app::console() << "UNKNOWN PARTICLE: " << d_particleToCreate;
 			break;

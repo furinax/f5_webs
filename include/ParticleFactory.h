@@ -13,6 +13,11 @@
 #include "Particle_field.h"
 #include "Particle_spring.h"
 #include "Particle_quad.h"
+#include "Particle_queue.h"
+#include "Particle_torrent.h"
+#include "Particle_hex.h"
+#include "Particle_trail.h"
+#include "Particle_fft.h"
 
 enum particle_choice
 {
@@ -26,6 +31,11 @@ enum particle_choice
 	PARTICLE_FIELD, //7
 	PARTICLE_SPRING, //8
 	PARTICLE_QUAD, //9
+	PARTICLE_QUEUE, //10
+	PARTICLE_TORRENT, //11
+	PARTICLE_HEX, //12
+	PARTICLE_TRAIL, //13
+	PARTICLE_FFT, //14
 };
 
 class ParticleFactory
@@ -33,7 +43,7 @@ class ParticleFactory
 public:
 	//create: for testing
 	void create(const double elapsedSeconds, const std::list< ci::Vec2f > &vpos, ParticleSystem & ps);
-	int d_particleToCreate = 9;
+	int d_particleToCreate = 12;
 	double d_offsetTime = 0;
 	double d_adjustSeconds = 0.f; //negative means delay the visuals, positive means speed them up
 

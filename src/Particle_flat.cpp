@@ -14,10 +14,11 @@ using namespace ci::app;
 Particle_flat::Particle_flat(const std::list< ci::Vec2f > &vpos){
 	mAnchorPosition = Vec3f(getWindowWidth() * .5f, getWindowHeight() *.5f, 0);
 	for (auto pos: vpos)
-		addPosition(Vec3f(pos.x, floor(pos.y / 50) * 50, 0));
+		addPosition(Vec3f(floor(pos.x / 30) * 30, floor(pos.y / 30) * 30, 0));
 	mRadius = 700.f;
-	mVel = Vec3f(-10.f, 0, 0);
-	mColor = ci::Color(1.f, 1.f, .3f);
+	Listener &listener = Listener::getInstance();
+//	mVel = Vec3f(-10.f, 0, 0);
+	mColor = ci::Color(listener.getVolume(), randFloat(.5f), randFloat());
 	mOverlayColor = Color::white();
 
 	mLifespan = 15;
@@ -34,7 +35,7 @@ void Particle_flat::update(const std::list< ci::Vec2f > &vpos){
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
 	{
 		Vec3f &currentPos = *iter;
-		mVel = Vec3f(3.f, (getWindowCenter().y - currentPos.y ) * 0.2f, 0);
+//		mVel = Vec3f(currentPos.x < getWindowCenter().x ? 3 : -3, (getWindowCenter().y - currentPos.y) * 0.2f, 0);
 //		mVel *= mDrag;
 		currentPos += mVel;
 	}
@@ -63,7 +64,9 @@ void Particle_flat::draw(const bool overlay, const std::list< ci::Vec2f > &vpos)
 				gl::color(adjustedColor);
 				gl::lineWidth(ci::math<float>::clamp(ci::lmap(loc.z, -500.f, 500.f, 0.f, 3.f), 0.f, 3.f));
 				glBegin(GL_LINES);
-				gl::vertex(Vec3f(0, loc.y, loc.z));
+				gl::vertex((randFloat()>.5?-1:1)* getWindowWidth() *randFloat() + loc.x, loc.y, loc.z);
+				gl::vertex(loc);
+				gl::vertex(loc.x, (randFloat()>.5 ? -1 : 1)* getWindowHeight() *randFloat() + loc.y, loc.z);
 				gl::vertex(loc);
 				glEnd();
 			}
