@@ -31,9 +31,6 @@ void ParticleFactory::create(const double elapsedSeconds, const std::list< ci::V
 		case PARTICLE_HELIX:{
 			Particle* particle = new Particle_helix(vpos);
 			ps.addParticle(particle);
-			Particle* particleMirror = new Particle_helix(vpos);
-		particleMirror->mOrientation = M_PI;
-		ps.addParticle(particleMirror);
 		}break;
 		case PARTICLE_SPHERE:{
 			if (ps.mParticles.size() != 0)

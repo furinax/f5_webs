@@ -25,6 +25,7 @@ public:
 	ci::audio::MonitorSpectralNodeRef	mMonitorSpectralNode;
 	std::vector<float>					mMagSpectrum;
 	float mScale;
+	float outVolume; // temporary var so we can output it from the params
 
 private:
 	Listener() {};

@@ -27,6 +27,7 @@ class f5_websApp : public AppNative {
 	params::InterfaceGl		mParams;
 	int mTotalParticles = 0;
 	bool mParamsVisible = true;
+	float mVolume = 0;
 	//CameraPersp mCam;
 	//Vec3f mEye, mCenter, mUp;
 	//Quatf mSceneRotation;
@@ -50,16 +51,21 @@ void f5_websApp::setup()
 	ps1.setup();
 	pss.push_back(ps1);
 
+	// SETUP LISTENER
+	Listener& listener = Listener::getInstance();
+	listener.setup();
+
 	// SETUP PARAMS
 	mParams = params::InterfaceGl("Parameters", Vec2i(200, 150));
 	mParams.addParam("Particle ID", &pf.d_particleToCreate, "keyIncr=+ keyDecr=-");
 	mParams.addSeparator();
 	mParams.addParam("Total particles", &mTotalParticles, "readonly=1");
+	mParams.addParam("Volume", &mVolume, "readonly=1");
+	mParams.addParam("Scale", &listener.mScale, "min=0.1 max=40.0 step=0.1");
+
 	//mParams.addParam("Scene Rotation", &mSceneRotation);
 
-	// SETUP LISTENER
-	Listener& listener = Listener::getInstance();
-	listener.setup();
+
 }
 
 void f5_websApp::mouseUp(MouseEvent event)
@@ -90,7 +96,7 @@ void f5_websApp::update()
 	// UPDATE LISTENER
 	Listener& listener = Listener::getInstance();
 	listener.update();
-	console() << listener.getVolume() << std::endl;
+	mVolume = listener.getVolume();
 
 	// UPDATE PARTICLE SYSTEMS
 	int particleCount = 0;

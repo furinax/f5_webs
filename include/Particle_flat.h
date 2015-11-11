@@ -11,4 +11,5 @@ public:
 	Particle_flat(const std::list< ci::Vec2f > &vpos);
 	void update(const std::list< ci::Vec2f > &vpos);
 	virtual void draw(const bool overlay, const std::list< ci::Vec2f > &vpos);
+	void convexLine(const float offset, const ci::Vec3f loc);
 };

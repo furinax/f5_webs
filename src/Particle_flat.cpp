@@ -14,9 +14,10 @@ using namespace ci::app;
 Particle_flat::Particle_flat(const std::list< ci::Vec2f > &vpos){
 	mAnchorPosition = Vec3f(getWindowWidth() * .5f, getWindowHeight() *.5f, 0);
 	for (auto pos: vpos)
-		addPosition(Vec3f(floor(pos.x / 30) * 30, floor(pos.y / 30) * 30, 0));
-	mRadius = 700.f;
+		addPosition(Vec3f(pos.x, floor(pos.y / 30) * 30, 0));
+	
 	Listener &listener = Listener::getInstance();
+	mRadius = 20 * listener.getBinVolume(50);
 //	mVel = Vec3f(-10.f, 0, 0);
 	mColor = ci::Color(listener.getVolume(), randFloat(.5f), randFloat());
 	mOverlayColor = Color::white();
@@ -52,26 +53,40 @@ void Particle_flat::draw(const bool overlay, const std::list< ci::Vec2f > &vpos)
 		adjustedColor = ColorA(mOverlayColor);
 	}
 
+	Listener &listener = Listener::getInstance();
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
 	{
 		Vec3f &loc = *iter;
 		for (auto pos : vpos)
 		{
-			float distance = pos.distance(Vec2f(loc.x, loc.y));
-			if (distance < mRadius)
-			{
-				adjustedColor.a = ci::lmap((float)mAge, 0.f, (float)mLifespan, 1.f, 0.f);
-				gl::color(adjustedColor);
-				gl::lineWidth(ci::math<float>::clamp(ci::lmap(loc.z, -500.f, 500.f, 0.f, 3.f), 0.f, 3.f));
-				glBegin(GL_LINES);
-				gl::vertex((randFloat()>.5?-1:1)* getWindowWidth() *randFloat() + loc.x, loc.y, loc.z);
-				gl::vertex(loc);
-				gl::vertex(loc.x, (randFloat()>.5 ? -1 : 1)* getWindowHeight() *randFloat() + loc.y, loc.z);
-				gl::vertex(loc);
-				glEnd();
-			}
+			adjustedColor.a = ci::lmap((float)mAge, 0.f, (float)mLifespan, 1.f, 0.f);
+			gl::color(adjustedColor);
+			gl::lineWidth(ci::math<float>::clamp(ci::lmap(loc.z, -500.f, 500.f, 0.f, 3.f), 0.f, 3.f));
+			glBegin(GL_LINES);
+
+			convexLine((randFloat() > .5 ? -1 : 1)* getWindowWidth() *randFloat(), loc);
+			
+			
+			gl::vertex(loc.x, (randFloat() > .5 ? -1 : 1)* getWindowHeight() *randFloat() + loc.y, loc.z);
+			gl::vertex(loc);
+
+			glEnd();
 		}
 	}
 
 	drawPositions();
+}
+
+void Particle_flat::convexLine(const float offset, const Vec3f loc )
+{
+	int steps = 20;
+	int stepWidth = getWindowWidth() / steps;
+	float convexity = -3;
+	std::function<int(int)> zCalc = [=](int aStep) ->int{ return convexity * pow(aStep - steps/2,2); };
+	for (int x = 0; x < steps; x++)
+	{
+		gl::vertex(stepWidth*x, loc.y, zCalc(x));
+		gl::vertex(stepWidth*(x+1), loc.y, zCalc(x+1));
+	}
+
 }

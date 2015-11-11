@@ -42,5 +42,47 @@ void Particle_torrent::update(const std::list< ci::Vec2f > &vpos){
 	mVel *= mDrag;
 	mVel += noiseVector * 10.f * mAgeMap;
 	addPosition(mPositions.front() + mVel);
+
+	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
+	{
+		Vec3f &loc = *iter;
+		for (auto pos : vpos)
+		{
+			float distance = pos.distance(Vec2f(loc.x, loc.y));
+			if (distance < mRadius)
+			{
+				mLineWidth = ci::lmap(distance, 0.f, mRadius, 2.f, 5.f);
+				return;
+			}
+			else
+				mLineWidth = 1.f;
+		}
+	}
 	
+}
+
+void Particle_torrent::draw(const bool overlay, const std::list< ci::Vec2f > &vpos){
+
+	ColorA adjustedColor;
+	if (!overlay)
+		adjustedColor = ColorA(mColor);
+	else
+	{
+		adjustedColor = ColorA(mOverlayColor);
+	}
+	gl::color(adjustedColor);
+	Listener &listener = Listener::getInstance();
+	gl::lineWidth(mLineWidth);
+	gl::pushMatrices();
+	gl::rotate(getElapsedSeconds());
+	glBegin(GL_LINE_STRIP);
+
+	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
+	{
+		Vec3f &loc = *iter;
+		gl::vertex(loc);
+	}
+	glEnd();
+	gl::popMatrices();
+	//drawPositions();
 }
