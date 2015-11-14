@@ -10,4 +10,6 @@ class Particle_sphere : public Particle{
 public:
 	Particle_sphere(const std::list< ci::Vec2f > &vpos);
 	void update(const std::list< ci::Vec2f > &vpos);
+	void draw(const bool overlay, const std::list< ci::Vec2f > &vpos);
+	bool isActive(const ci::Vec2f &lpos, const ci::Vec3f &rpos);
 };

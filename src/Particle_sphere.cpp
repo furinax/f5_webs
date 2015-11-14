@@ -9,37 +9,27 @@ using namespace ci::app;
 #include "cinder/gl/Fbo.h"
 #include "cinder/gl/GlslProg.h"
 #include "Resources.h"
+#include "cinder/CinderMath.h"
 
 Particle_sphere::Particle_sphere(const std::list< ci::Vec2f > &vpos){
-	mAnchorPosition = Vec3f(getWindowWidth() * .5f, getWindowHeight() *.5f, 0);
-
-	mRadiusAnchor = 200.f; //sphere radius
-	int slices = 36;
-	float scale = 3.f;
-	for (float heightIndex = 0; heightIndex < slices; heightIndex++)
-	{
-		float sliceRadius =  scale*sqrt(.25f - pow(heightIndex / slices - .5f, 2));
-		for (float sliceIndex = 0; sliceIndex < slices; sliceIndex++)
-		{
-			 Vec3f temp = Vec3f(
-				 mRadiusAnchor* sliceRadius * cos(sliceIndex / 36.f * 2.f * M_PI),
-				 scale * (heightIndex - slices / 2.f) * 5.f,
-				mRadiusAnchor* sliceRadius * sin(sliceIndex / 36.f * 2.f * M_PI)
-				) ;
-			 temp.rotateY(getElapsedSeconds());
-			 temp += mAnchorPosition;
-			 addPosition(temp);
-		}
-	}
-
 	mRadius = 200.f;
 
-	mColor = ci::Color(0.f, 1.f, 1.f);
+	Listener &listener = Listener::getInstance();
+	mRadiusAnchor = getWindowWidth();// *listener.getVolume();
+
+	mAnchorPosition = Vec3f(0, getWindowHeight() + mRadius, 0);//100 * sin(getElapsedSeconds()));
+	for (; mAnchorPosition.x < getWindowWidth(); mAnchorPosition.x += mRadius / 10.f)
+		addPosition(mAnchorPosition);
+	Vec3f temp = Vec3f(1.f, 0, 0);
+
+	//mOverlayColor = ci::Color(listener.getVolume(), .2f, 1.f);
+	mColor = ci::Color(0.f, 0.f, 1.f);
 	mOverlayColor = Color::white();
 
-	//mVel = Vec3f(0, 30.f, 50 * sin(getElapsedSeconds())); //this is a base, we will rotate it based on mAnchorPosition
-	mLifespan = 1;
-
+	mVel = Vec3f(0.f, -20.f, 0.f);
+	mDrag = 1.f;
+	//mDrag = 2.f * randFloat() + 1.f;
+	mLifespan = 200;
 }
 
 void Particle_sphere::update(const std::list< ci::Vec2f > &vpos){
@@ -50,10 +40,58 @@ void Particle_sphere::update(const std::list< ci::Vec2f > &vpos){
 	mAgeMap = 1.0f - (mAge / (float)mLifespan);
 
 	mVel += mAcc;
-	mVel *= mDrag;
+	Listener &listener = Listener::getInstance();
+	mRadius = 200.f * listener.getVolume();
+	mAngle = 90.f * listener.getVolume();
+
+	addPosition(Vec3f(mRadiusAnchor * cos(mAge), getWindowHeight() + mRadius, 0));
 
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
 	{
 		Vec3f &currentPos = *iter;
+		currentPos += mVel;
 	}
+}
+
+void Particle_sphere::draw(const bool overlay, const std::list< ci::Vec2f > &vpos){
+
+	ColorA adjustedColor;
+	if (!overlay)
+		adjustedColor = ColorA(mColor);
+	else
+	{
+		adjustedColor = ColorA(mOverlayColor);
+	}
+
+	Listener &listener = Listener::getInstance();
+	//adjustedColor.a = overlay ? listener.getVolume() : 1.f;
+	gl::color(adjustedColor);
+
+	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
+	{
+		ci::Vec3f &loc = *iter;
+		for (auto pos : vpos)
+		{
+			if (isActive(pos, loc))
+			{
+				gl::lineWidth(listener.getVolume() * 2.f + 1.f);
+				glBegin(GL_LINES);
+				gl::vertex(loc);
+				Vec3f sister(loc - Vec3f(pos));
+				sister.rotateZ(mAngle);
+				sister *= mDrag;
+				sister += Vec3f(pos);
+				gl::vertex(sister);
+				glEnd();
+			}
+		}
+	}
+
+	drawPositions();
+}
+
+bool Particle_sphere::isActive(const ci::Vec2f &lpos, const ci::Vec3f &rpos)
+{
+	float distance = lpos.distance(Vec2f(rpos.x, rpos.y));
+	return distance > .8f * mRadius && distance < mRadius;
 }

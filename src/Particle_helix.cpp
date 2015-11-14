@@ -11,18 +11,35 @@ using namespace ci::app;
 #include "Resources.h"
 
 Particle_helix::Particle_helix(const std::list< ci::Vec2f > &vpos){
+	mRadiusAnchor = 700.f;
+	Listener &listener = Listener::getInstance();
+	mRadius = mRadiusAnchor;// *listener.getVolume();
 
-	mRadius = 50.f;
-	mDrag = .95f;
+	mAnchorPosition = Vec3f::zero();
+	mAnchorPosition.x += getWindowWidth() / 2.f;
+	mAnchorPosition.y = getWindowHeight() + 100;
+	drawHelix( 6 );
 
+	mColor = ci::Color(1.f, listener.getVolume() * .5f, 0.f);
 	mOverlayColor = Color::white();
-	Listener& listener = Listener::getInstance();
-	mAnchorPosition = Vec3f(getWindowWidth() * randFloat(), getWindowHeight() * randFloat() , 0);
-	addPosition(mAnchorPosition);
 
-	mVel = Vec3f::zero();
-	mLifespan = 230;
-	mSet = false;
+	mVel = Vec3f(0.f, -40.f, 0.f);
+	mDrag = 10.f * listener.getVolume();
+	mLifespan = 100;
+
+}
+
+void Particle_helix::drawHelix(const int args_steps)
+{
+	
+	mAngle = 2 * M_PI / args_steps;
+	Vec3f temp = Vec3f(1.f, 0.f, 0.f) * mRadius;
+	temp.rotateY(getElapsedSeconds());
+	for (int steps = 0; steps < args_steps; steps++)
+	{
+		addPosition(Vec3f(temp) + mAnchorPosition);
+		temp.rotateY(mAngle);
+	}
 }
 
 void Particle_helix::update(const std::list< ci::Vec2f > &vpos){
@@ -34,31 +51,14 @@ void Particle_helix::update(const std::list< ci::Vec2f > &vpos){
 
 	Listener &listener = Listener::getInstance();
 
-	mVel *= mDrag;
-	float map = ci::lmap(
-		abs(mPositions.front().y - getWindowHeight()), (float)getWindowHeight(), 0.f, 0.f, 1.f);
-	mColor = ci::Color( map,
-		.4f * map, //green value
-		1.f - map); // blue value
-
-
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
 	{
-		Vec3f &currentPos = *iter; 
-		currentPos += mVel;
-		for (auto pos : vpos)
-		{
-			float distance = pos.distance(Vec2f(currentPos.x, currentPos.y));
-			if (!mSet && distance < mRadius)
-			{
-				mSet = true;
-				mAnchorPosition = Vec3f(pos, 0);
-			}
-		}
+		(*iter) += mVel;
+		//mVel.rotateZ(mAngle);
 	}
 }
 
-void Particle_helix::draw(const bool overlay, const std::list< ci::Vec2f > &vpos){
+void Particle_helix::draw(const bool overlay, const std::list < ci::Vec2f> &vpos){
 
 	ColorA adjustedColor;
 	if (!overlay)
@@ -67,38 +67,19 @@ void Particle_helix::draw(const bool overlay, const std::list< ci::Vec2f > &vpos
 	{
 		adjustedColor = ColorA(mOverlayColor);
 	}
-
+	adjustedColor.a = mAgeMap;
+	gl::color(adjustedColor);
+	Listener &listener = Listener::getInstance();
+	gl::lineWidth(mDrag);
+	glBegin(GL_LINE_STRIP);
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
 	{
 		Vec3f &loc = *iter;
-		for (auto pos : vpos)
-		{
-			float distance = pos.distance(Vec2f(loc.x, loc.y));
-			if (mSet)
-			{
-				if (overlay)
-					adjustedColor.a = mAgeMap/2.f;
-				else
-					adjustedColor.a = 1.f;
-				gl::color(adjustedColor);
-				gl::lineWidth(ci::math<float>::clamp(ci::lmap(loc.z, -500.f, 500.f, 0.f, 3.f), 0.f, 3.f));
-				glBegin(GL_LINES);
-				gl::vertex(mAnchorPosition);
-				gl::vertex(loc);
-				glEnd();
-			}
-			else if (distance < mRadius)
-			{
-				adjustedColor.a = ci::lmap(distance, 0.f, mRadius, 1.f, 0.f);
-				gl::color(adjustedColor);
-				gl::lineWidth(ci::math<float>::clamp(ci::lmap(loc.z, -500.f, 500.f, 0.f, 3.f), 0.f, 3.f));
-				glBegin(GL_LINES);
-				gl::vertex(pos);
-				gl::vertex(loc);
-				glEnd();
-			}
-		}
+		gl::vertex(loc);
 	}
+	if (mPositions.size() > 2 )
+		gl::vertex(mPositions.front());
+	glEnd();
 
 	drawPositions();
 }

@@ -33,8 +33,6 @@ void ParticleFactory::create(const double elapsedSeconds, const std::list< ci::V
 			ps.addParticle(particle);
 		}break;
 		case PARTICLE_SPHERE:{
-			if (ps.mParticles.size() != 0)
-				break;
 			Particle* particle = new Particle_sphere(vpos);
 			ps.addParticle(particle);
 		}break;

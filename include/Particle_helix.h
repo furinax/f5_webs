@@ -10,8 +10,7 @@ class Particle_helix : public Particle{
 public:
 	Particle_helix(const std::list< ci::Vec2f > &vpos);
 	void update(const std::list< ci::Vec2f > &vpos);
-	void draw(const bool overlay, const std::list< ci::Vec2f > &vpos);
-	ci::Vec3f getPosition(const float f);
+	void draw(const bool overlay, const std::list < ci::Vec2f> &vpos);
 private:
-	bool mSet;
+	void drawHelix(const int args_steps);
 };

@@ -57,7 +57,7 @@ void Particle_hex::update(const std::list< ci::Vec2f > &vpos){
 	mColor.r = mAgeMap;
 	mColor.g = mAgeMap * listener.getVolume() * .5f;
 	mColor.b = 1 - mAgeMap;
-	mVel *= listener.getVolume();
+	mVel *= 1.2f * listener.getVolume();
 }
 
 void Particle_hex::draw(const bool overlay, const std::list < ci::Vec2f> &vpos){

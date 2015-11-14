@@ -74,7 +74,7 @@ void Particle_torrent::draw(const bool overlay, const std::list< ci::Vec2f > &vp
 	Listener &listener = Listener::getInstance();
 	gl::lineWidth(mLineWidth);
 	gl::pushMatrices();
-	gl::rotate(getElapsedSeconds());
+	gl::rotate(20*sin(getElapsedSeconds()/4.f));
 	glBegin(GL_LINE_STRIP);
 
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
