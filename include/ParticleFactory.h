@@ -18,24 +18,26 @@
 #include "Particle_hex.h"
 #include "Particle_trail.h"
 #include "Particle_fft.h"
+#include "Particle_fixed.h"
 
 enum particle_choice
 {
 	PARTICLE_CIRCLE, //0
 	PARTICLE_TEXT, //1
 	PARTICLE_HALO, //2
-	PARTICLE_HORIZON, //3
-	PARTICLE_HELIX, //4
-	PARTICLE_SPHERE, //5
-	PARTICLE_FLAT, //6
-	PARTICLE_FIELD, //7
-	PARTICLE_SPRING, //8
-	PARTICLE_QUAD, //9
-	PARTICLE_QUEUE, //10
-	PARTICLE_TORRENT, //11
-	PARTICLE_HEX, //12
-	PARTICLE_TRAIL, //13
-	PARTICLE_FFT, //14
+	PARTICLE_HORIZON, //3 red shear
+	PARTICLE_HELIX, //4 rising hexes
+	PARTICLE_SPHERE, //5 two nest circles
+	PARTICLE_FLAT, //6 grid lines
+	PARTICLE_FIELD, //7 moving volume lines
+	PARTICLE_SPRING, //8 circles
+	PARTICLE_QUAD, //9 swirls
+	PARTICLE_QUEUE, //10 zooming lines
+	PARTICLE_TORRENT, //11 neural network
+	PARTICLE_HEX, //12 expanding spiral
+	PARTICLE_TRAIL, //13 simple history
+	PARTICLE_FFT, //14 bars
+	PARTICLE_FIXED //15 square turns
 };
 
 class ParticleFactory
@@ -43,7 +45,7 @@ class ParticleFactory
 public:
 	//create: for testing
 	void create(const double elapsedSeconds, const std::list< ci::Vec2f > &vpos, ParticleSystem & ps);
-	int d_particleToCreate = 4;
+	int d_particleToCreate = 15;
 	double d_offsetTime = 0;
 	double d_adjustSeconds = 0.f; //negative means delay the visuals, positive means speed them up
 

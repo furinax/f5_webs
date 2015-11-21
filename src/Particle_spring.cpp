@@ -11,16 +11,26 @@ using namespace ci::app;
 #include "Resources.h"
 
 Particle_spring::Particle_spring(const std::list< ci::Vec2f > &vpos){
+
+	mRadiusAnchor = 25.f;
+	mRadius = 150;// *randFloat();
 	mAnchorPosition = Vec3f(getWindowWidth() * .5f, getWindowHeight() *.5f, 0);
-	addPosition(mAnchorPosition);
+	for (mAnchorPosition.x = getWindowWidth() / 12.f; mAnchorPosition.x < getWindowWidth(); mAnchorPosition.x += getWindowWidth() / 6.f)
+	{
+		for (mAnchorPosition.y = getWindowHeight() / 6.f; mAnchorPosition.y < getWindowHeight(); mAnchorPosition.y += getWindowHeight() / 3.f)
+		{
+			addPosition(mAnchorPosition);
+		}
+	}
+	Listener &listener = Listener::getInstance();
 
-	mRadius = 250;// *randFloat();
+	
 
-	mColor = ci::Color(1.f, 0.f, 0.f);
+	mColor = ci::Color(0, abs(sin(getElapsedSeconds())), abs(cos(getElapsedSeconds())));
 	mOverlayColor = Color::white();
 
-	mVel = Vec3f(35 * randVec2f(), 0); //this is a base, we will rotate it based on mAnchorPosition
-	mDrag = .80f;
+	mVel = Vec3f(mRadiusAnchor * randVec2f(), 0); //this is a base, we will rotate it based on mAnchorPosition
+	mDrag = .60f;
 	mLifespan = 100;
 
 }
@@ -31,12 +41,11 @@ void Particle_spring::update(const std::list< ci::Vec2f > &vpos){
 		mIsDead = true;
 
 	mAgeMap = 1.0f - (mAge / (float)mLifespan);
+	Listener &listener = Listener::getInstance();
 
-//	float noise = mPerlin.fBm(mPositions.front().x , mPositions.front().y, getElapsedSeconds() * 0.1f);
-//	float angle = noise * 15.f;
-//	Vec3f noiseVector(cos(angle), sin(angle), cos(angle));
-//	mVel += noiseVector * 5.f * mAgeMap;
-	mPositions.front() += mVel;
-	mVel.x *= mDrag;
-	mVel.y *= mDrag;
+	for (auto i = mPositions.begin(); i != mPositions.end(); i++)
+	{
+		*i += mVel;
+	}
+	mVel *= mDrag;
 }

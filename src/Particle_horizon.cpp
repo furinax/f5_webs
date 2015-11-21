@@ -33,7 +33,7 @@ Particle_horizon::Particle_horizon(const std::list< ci::Vec2f > &vpos){
 	
 	mRadius = 75.f;
 
-	mColor = ci::Color(1.f, 0.f, 0.f);
+	mColor = ci::Color(pow(sin(getElapsedSeconds()), 2), abs(cos(getElapsedSeconds())), .5f * sin(getElapsedSeconds() / 2) + .5f);
 	mOverlayColor = Color::white();
 
 	mVel = Vec3f(50.f, 0.f, 0.f);
@@ -51,7 +51,7 @@ void Particle_horizon::update(const std::list< ci::Vec2f > &vpos){
 
 	mVel += mAcc;
 	mVel *= mDrag;
-
+	mColor = ci::Color(pow(sin(getElapsedSeconds()), 2), abs(cos(getElapsedSeconds())), .5f * sin(getElapsedSeconds() / 2) + .5f);
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
 	{
 		Vec3f &currentPos = *iter;

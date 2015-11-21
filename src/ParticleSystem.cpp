@@ -33,12 +33,12 @@ void ParticleSystem::setup()
 void ParticleSystem::update(const std::list< ci::Vec2f > &vpos){
 	
 	for (std::vector<Particle*>::iterator it = mParticles.begin(); it != mParticles.end();){
+		(*it)->update(vpos);
 		if ((*it)->mIsDead) {
 			delete *it;
 			it = mParticles.erase(it);
 		}
-		else {
-			(*it)->update(vpos);
+		else {	
 			++it;
 		}
 	}

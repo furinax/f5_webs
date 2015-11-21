@@ -23,11 +23,13 @@ Particle_circle::Particle_circle(const std::list< ci::Vec2f > &vpos){
 
 	mRadius = 100.f;
 
-	mColor = ci::Color(0.f, 0.f, 1.f);
+	mColor = ci::Color(1.f, 0.f, 0.f);
 	mOverlayColor = Color::white();
 	Listener& listener = Listener::getInstance();
 
 	mVel = Vec3f(0, 30.f, 50 * listener.getVolume()); //this is a base, we will rotate it based on mAnchorPosition
+	mVel.rotateZ(getElapsedSeconds());
+
 	mLifespan = 20;
 
 }
@@ -41,7 +43,7 @@ void Particle_circle::update(const std::list< ci::Vec2f > &vpos){
 	
 	mVel += mAcc;
 	mVel *= mDrag;
-
+	mColor = Color(mAgeMap, 0, 1 - mAgeMap);
 	Vec3f mVelRotated = Vec3f(mVel);
 	Matrix44f rotMatrix = Matrix44f::createRotation(Vec3f(0, 0, 1), mAngle);
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)

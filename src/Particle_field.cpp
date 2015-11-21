@@ -23,8 +23,8 @@ Particle_field::Particle_field(const std::list< ci::Vec2f > &vpos){
 		addPosition(Vec3f(0, getWindowHeight() / 30 * i, 0));
 	}
 
-	mColor = ci::Color(1.f, .6f, .2f);
-	mOverlayColor = ci::Color(1.f, .6f, .2f);
+	mColor = ci::Color(pow(sin(getElapsedSeconds()),2), abs(cos(getElapsedSeconds())), .5f * sin(getElapsedSeconds()/2)+.5f);
+	mOverlayColor = ci::Color(1.f, 1.f, 1.f);
 
 	mVel = Vec3f(10,0,-2);
 	mAcc = Vec3f(0,0, 0);

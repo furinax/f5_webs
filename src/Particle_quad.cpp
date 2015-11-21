@@ -22,7 +22,8 @@ Particle_quad::Particle_quad(const std::list< ci::Vec2f > &vpos){
 	
 	mRadius = 100.f;
 
-	mOverlayColor = Color::white();
+	mColor = ci::Color(pow(sin(getElapsedSeconds()), 2), abs(cos(getElapsedSeconds())), .5f * sin(getElapsedSeconds() / 2) + .5f);
+	mOverlayColor = ci::Color(1.f, 1.f, 1.f);
 
 	mVel = Vec3f(-20.f, -20.f, 0.f);
 	mLifespan = 400;
@@ -47,7 +48,6 @@ void Particle_quad::update(const std::list< ci::Vec2f > &vpos){
 	Listener& listener = Listener::getInstance();
 	
 	Matrix44f rotMatrix = Matrix44f::createRotation(Vec3f(0, 0, 1), mAngle);
-	mColor = ci::Color(0.3f, 0.f, 0.7f);
 	mVelRotated = rotMatrix * mVelRotated;
 
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)

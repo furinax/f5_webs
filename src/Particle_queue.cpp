@@ -21,9 +21,10 @@ Particle_queue::Particle_queue(const std::list< ci::Vec2f > &vpos){
 	mRadius = 100.f;
 	mVel = Vec3f(0,0,-20.f);
 	Listener &listener = Listener::getInstance();
-	mColor = ci::Color(1.f, randFloat(listener.getVolume()), randFloat());
-	mOverlayColor = Color::white();
-	mLineWidth = ci::math<float>::clamp(ci::lmap(listener.getVolume(), 0.f, 3.f, 0.f, 10.f), 0.f, 10.f);
+	mColor = ci::Color(.5f, 0, 0.5f);
+	mOverlayColor = Color(1.f, .65f, 0.f);
+	mLineWidth = 10.f;
+	mDrag = .95f;
 	mLifespan = 60;// abs(mAnchorPosition.z / mVel.z);
 
 }
@@ -34,7 +35,8 @@ void Particle_queue::update(const std::list< ci::Vec2f > &vpos){
 		mIsDead = true;
 
 	mAgeMap = 1.0f - (mAge / (float)mLifespan);
-	
+	mOverlayColor = Color(1 - mAgeMap / 2.f, .65f * mAgeMap, -.5f * mAgeMap + .5f);
+	mLineWidth *= mDrag;
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
 	{
 		Vec3f &currentPos = *iter;
@@ -64,7 +66,7 @@ void Particle_queue::draw(const bool overlay, const std::list< ci::Vec2f > &vpos
 			//float distance = pos.distance(Vec2f(loc.x, loc.y) + getWindowCenter());
 			//if (distance < mRadius)
 			{
-				adjustedColor.r = ci::lmap((float)mAge, 0.f, (float)mLifespan, 1.f, 0.f);
+				//adjustedColor.r = ci::lmap((float)mAge, 0.f, (float)mLifespan, 1.f, 0.f);
 				gl::color(adjustedColor);
 				glBegin(GL_LINES);
 				gl::vertex(loc );

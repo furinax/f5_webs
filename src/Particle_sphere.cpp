@@ -17,19 +17,17 @@ Particle_sphere::Particle_sphere(const std::list< ci::Vec2f > &vpos){
 	Listener &listener = Listener::getInstance();
 	mRadiusAnchor = getWindowWidth();// *listener.getVolume();
 
-	mAnchorPosition = Vec3f(0, getWindowHeight() + mRadius, 0);//100 * sin(getElapsedSeconds()));
-	for (; mAnchorPosition.x < getWindowWidth(); mAnchorPosition.x += mRadius / 10.f)
-		addPosition(mAnchorPosition);
-	Vec3f temp = Vec3f(1.f, 0, 0);
+	mAnchorPosition = Vec3f(getWindowCenter(), 0);//100 * sin(getElapsedSeconds()));
+	addPosition(mAnchorPosition);
 
 	//mOverlayColor = ci::Color(listener.getVolume(), .2f, 1.f);
 	mColor = ci::Color(0.f, 0.f, 1.f);
 	mOverlayColor = Color::white();
 
-	mVel = Vec3f(0.f, -20.f, 0.f);
-	mDrag = 1.f;
+	mVel = 10.f*randVec3f();
+	mDrag = 1.1f;
 	//mDrag = 2.f * randFloat() + 1.f;
-	mLifespan = 200;
+	mLifespan = 100;
 }
 
 void Particle_sphere::update(const std::list< ci::Vec2f > &vpos){
@@ -39,12 +37,14 @@ void Particle_sphere::update(const std::list< ci::Vec2f > &vpos){
 
 	mAgeMap = 1.0f - (mAge / (float)mLifespan);
 
-	mVel += mAcc;
+	mVel.rotateZ(getElapsedSeconds());
+	mVel *= mDrag;
 	Listener &listener = Listener::getInstance();
 	mRadius = 200.f * listener.getVolume();
 	mAngle = 90.f * listener.getVolume();
 
-	addPosition(Vec3f(mRadiusAnchor * cos(mAge), getWindowHeight() + mRadius, 0));
+	mColor = Color(sin(getElapsedSeconds()), sin(getElapsedSeconds()/2.f), 1.f);
+	addPosition(mAnchorPosition);
 
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
 	{
@@ -93,5 +93,7 @@ void Particle_sphere::draw(const bool overlay, const std::list< ci::Vec2f > &vpo
 bool Particle_sphere::isActive(const ci::Vec2f &lpos, const ci::Vec3f &rpos)
 {
 	float distance = lpos.distance(Vec2f(rpos.x, rpos.y));
+	//float distMap = ci::lmap(distance, 0.f, mRadius, 0.f, 1.f);
+	//gl::color( distMap, pow(sin(getElapsedSeconds()), 2), 1-distMap);
 	return distance > .8f * mRadius && distance < mRadius;
 }

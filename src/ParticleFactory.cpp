@@ -68,12 +68,19 @@ void ParticleFactory::create(const double elapsedSeconds, const std::list< ci::V
 			ps.addParticle(particle);
 		}break;
 		case PARTICLE_TRAIL:{
-				Particle* particle = new Particle_trail( std::list<Vec2f>{ vpos });
+				Particle* particle = new Particle_trail( vpos );
 				ps.addParticle(particle);
 		}break;
 		case PARTICLE_FFT:{
-			Particle* particle = new Particle_fft(std::list<Vec2f>{ vpos });
+			Particle* particle = new Particle_fft(vpos);
 			ps.addParticle(particle);
+		}break;
+		case PARTICLE_FIXED:{
+			for (auto pos : vpos)
+			{		
+				Particle* particle = new Particle_fixed(std::list < Vec2f > {pos});
+				ps.addParticle(particle);
+			}
 		}break;
 		default:
 			ci::app::console() << "UNKNOWN PARTICLE: " << d_particleToCreate;

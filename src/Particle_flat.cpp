@@ -18,6 +18,7 @@ Particle_flat::Particle_flat(const std::list< ci::Vec2f > &vpos){
 	
 	Listener &listener = Listener::getInstance();
 	mRadius = 20 * listener.getBinVolume(50);
+	mLineWidth = 5.f * listener.getVolume();
 //	mVel = Vec3f(-10.f, 0, 0);
 	mColor = ci::Color(listener.getVolume(), randFloat(.5f), randFloat());
 	mOverlayColor = Color::white();
@@ -61,16 +62,16 @@ void Particle_flat::draw(const bool overlay, const std::list< ci::Vec2f > &vpos)
 		{
 			adjustedColor.a = ci::lmap((float)mAge, 0.f, (float)mLifespan, 1.f, 0.f);
 			gl::color(adjustedColor);
-			gl::lineWidth(ci::math<float>::clamp(ci::lmap(loc.z, -500.f, 500.f, 0.f, 3.f), 0.f, 3.f));
+			gl::lineWidth(1);
 			glBegin(GL_LINES);
-
 			convexLine((randFloat() > .5 ? -1 : 1)* getWindowWidth() *randFloat(), loc);
-			
-			
+			glEnd();
+			gl::lineWidth(mLineWidth);
+			glBegin(GL_LINES);
 			gl::vertex(loc.x, (randFloat() > .5 ? -1 : 1)* getWindowHeight() *randFloat() + loc.y, loc.z);
 			gl::vertex(loc);
-
 			glEnd();
+			
 		}
 	}
 
@@ -81,8 +82,8 @@ void Particle_flat::convexLine(const float offset, const Vec3f loc )
 {
 	int steps = 20;
 	int stepWidth = getWindowWidth() / steps;
-	float convexity = -3;
-	std::function<int(int)> zCalc = [=](int aStep) ->int{ return convexity * pow(aStep - steps/2,2); };
+	float convexity = 200;
+	std::function<int(int)> zCalc = [=](int aStep) ->int{ return convexity * sin( M_PI * aStep / steps  ) ; };
 	for (int x = 0; x < steps; x++)
 	{
 		gl::vertex(stepWidth*x, loc.y, zCalc(x));
