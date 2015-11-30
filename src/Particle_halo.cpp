@@ -11,26 +11,25 @@ using namespace ci::app;
 #include "Resources.h"
 
 Particle_halo::Particle_halo(const std::list< ci::Vec2f > &vpos){
-	mAnchorPosition = Vec3f(getWindowWidth() * .5f, getWindowHeight() *.5f, 0);
-	int spokes = 360;
-	mAngle = 2.f * M_PI / spokes;
-	Vec3f temp = Vec3f(getWindowWidth()/2,0.f,0.f);
-	Matrix44f rotMatrix = Matrix44f::createRotation(Vec3f(0.f, 0.f, 1.f), mAngle);
-	for (int i = 0; i < spokes; i++)
+	mMinRadius = 50;
+	mAnchorPosition = Vec3f(getWindowCenter(), 0);
+	Listener &listener = Listener::getInstance();
+	mRadiusAnchor = 500.f;
+	mRadius = 50 * listener.getVolume() + mMinRadius;
+	mLineWidth = 5.f * listener.getVolume();
+
+	for (auto pos : vpos )
 	{
-		addPosition(temp + mAnchorPosition);
-		temp = rotMatrix * temp;
+		Vec3f temp = Vec3f(pos - getWindowCenter());
+		temp.safeNormalize();
+		roundAngle(temp, 2.f * M_PI / 100.f);
+		addPosition(temp);
 	}
 
-	mRadiusAnchor = getWindowWidth()/2;
+	//mColor = ci::Color(listener.getVolume(), listener.getVolume()/2.f, 1.f);
+	//mOverlayColor = Color::white();
 
-	Listener &listener = Listener::getInstance();
-
-	mColor = ci::Color(listener.getVolume(), listener.getVolume()/2.f, 1.f);
-	mOverlayColor = Color::white();
-
-	//mVel = Vec3f(0, 30.f, 50 * sin(getElapsedSeconds())); //this is a base, we will rotate it based on mAnchorPosition
-	mLifespan = 1;
+	mLifespan = 40;
 
 }
 
@@ -41,13 +40,50 @@ void Particle_halo::update(const std::list< ci::Vec2f > &vpos){
 
 	mAgeMap = 1.0f - (mAge / (float)mLifespan);
 	
-	mVel += mAcc;
-	mVel *= mDrag;
 	Listener &listener = Listener::getInstance();
-	mRadius = mRadiusAnchor;
+	mRadius = 50 * listener.getVolume() + mMinRadius;
+}
 
+void Particle_halo::draw(const bool overlay, const std::list< ci::Vec2f > &vpos){
+	ColorA adjustedColor;
+	if (!overlay)
+		adjustedColor = ColorA(mColor);
+	else
+	{
+		adjustedColor = ColorA(mOverlayColor);
+	}
+
+	Listener &listener = Listener::getInstance();
+	gl::pushMatrices();
+	gl::translate(mAnchorPosition);
+	gl::lineWidth(mLineWidth);
+	glBegin(GL_LINES);
+	
+	//gl::color(adjustedColor);
+	
+	float step = (mRadiusAnchor - mMinRadius) / 10.f;
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
 	{
-		Vec3f &currentPos = *iter;
+		for (float tempRadius = mRadius; tempRadius < mRadiusAnchor; tempRadius += step)
+		{
+		
+			Vec3f &loc = *iter;
+			gl::color(ColorA(cos(tempRadius / (step * 10)), 1.f - tempRadius/mRadiusAnchor, 1.f - mAgeMap, mAgeMap ));
+			gl::vertex(tempRadius * loc);
+			gl::vertex((tempRadius + step) * loc);
+		}
 	}
+	glEnd();
+	gl::popMatrices();
+	drawPositions();
+}
+
+void Particle_halo::roundAngle(ci::Vec3f& pos, const float denomination)
+{
+	float angle = asin((pos.x > 0 ? -1 : 1) *pos.y);
+	float iPart;
+	float fPart = modf(angle / denomination, &iPart);
+	if (fPart > 0.5f)
+		fPart -= 1.f;
+	pos.rotateZ(fPart * denomination);
 }

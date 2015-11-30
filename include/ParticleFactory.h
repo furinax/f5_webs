@@ -45,7 +45,7 @@ class ParticleFactory
 public:
 	//create: for testing
 	void create(const double elapsedSeconds, const std::list< ci::Vec2f > &vpos, ParticleSystem & ps);
-	int d_particleToCreate = 15;
+	int d_particleToCreate = 2;
 	double d_offsetTime = 0;
 	double d_adjustSeconds = 0.f; //negative means delay the visuals, positive means speed them up
 
