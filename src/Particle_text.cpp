@@ -23,9 +23,9 @@ Particle_text::Particle_text(const std::list< ci::Vec2f > &vpos){
 	if (!mDate)
 		mDate = Channel32f(loadImage(loadResource(RES_DATE)));
 
-	mAnchorName = Vec3f(160, 180, 0);
+	mAnchorName = Vec3f(160, 100, 0);
 	mAnchorProduction = Vec3f(200, 300, 0);
-	mAnchorDate = Vec3f(240, 420, 0);
+	mAnchorDate = Vec3f(240, 500, 0);
 	for (int i = 0; i < mName.getWidth(); i += 5)
 	{
 		for (int j = 0; j < mName.getHeight(); j += 5)

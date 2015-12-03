@@ -90,6 +90,12 @@
     <ClCompile Include="..\src\Particle_fixed.cpp">
       <Filter>Source Files\Particles</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Tracker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\MusicPlayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\Resources.h">
@@ -154,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="..\include\Particle_fixed.h">
       <Filter>Header Files\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\Tracker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\MusicPlayer.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

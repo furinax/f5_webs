@@ -44,8 +44,11 @@ class ParticleFactory
 {
 public:
 	//create: for testing
-	void create(const double elapsedSeconds, const std::list< ci::Vec2f > &vpos, ParticleSystem & ps);
-	int d_particleToCreate = 2;
+	void create(const std::list< ci::Vec2f > &vpos, ParticleSystem & ps);
+	//perform: for synchronization to a track
+	void perform(const std::list< ci::Vec2f > &vpos, ParticleSystem & ps);
+
+	int d_particleToCreate = 12;
 	double d_offsetTime = 0;
 	double d_adjustSeconds = 0.f; //negative means delay the visuals, positive means speed them up
 

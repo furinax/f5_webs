@@ -4,7 +4,7 @@
 using namespace ci;
 using namespace ci::app;
 
-void ParticleFactory::create(const double elapsedSeconds, const std::list< ci::Vec2f > &vpos, ParticleSystem & ps)
+void ParticleFactory::create(const std::list< ci::Vec2f > &vpos, ParticleSystem & ps)
 {
 
 	switch (d_particleToCreate)
@@ -86,4 +86,29 @@ void ParticleFactory::create(const double elapsedSeconds, const std::list< ci::V
 			ci::app::console() << "UNKNOWN PARTICLE: " << d_particleToCreate;
 			break;
 	}
+}
+
+void ParticleFactory::perform(const std::list< ci::Vec2f > &vpos, ParticleSystem & ps)
+{
+	double adjustedTime = getElapsedSeconds() + d_adjustSeconds - d_offsetTime;
+	if (adjustedTime < 0)
+		ci::app::console() << "waiting for song to start..." << std::endl;
+
+	if (adjustedTime >= 0 && adjustedTime < 20 && ps.mParticles.size() == 0)
+	{
+		Particle* particle = new Particle_text(vpos);
+		ps.addParticle(particle);
+	}
+
+	if ( adjustedTime >= 0 && adjustedTime < 42 )
+	{
+		Particle* particle = new Particle_hex(vpos);
+		ps.addParticle(particle);
+	}
+	if (adjustedTime >= 42 && adjustedTime < 70)
+	{
+		Particle* particle = new Particle_circle(vpos);
+		ps.addParticle(particle);
+	}
+
 }
