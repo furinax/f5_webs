@@ -78,7 +78,6 @@ void Particle_hex::draw(const bool overlay, const std::list < ci::Vec2f> &vpos){
 		Vec3f &loc = *iter;
 
 		gl::color(adjustedColor);
-		gl::lineWidth(ci::math<float>::clamp(ci::lmap(loc.z, -500.f, 500.f, 0.f, 3.f), 0.f, 3.f));
 		glBegin(GL_LINES);
 		gl::vertex(Vec3f::zero() );
 		gl::vertex(loc);

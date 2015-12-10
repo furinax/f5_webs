@@ -11,7 +11,7 @@ using namespace ci::app;
 #include "Resources.h"
 
 Particle_helix::Particle_helix(const std::list< ci::Vec2f > &vpos){
-	mRadiusAnchor = 700.f;
+	mRadiusAnchor = getWindowWidth();
 	Listener &listener = Listener::getInstance();
 	mRadius = mRadiusAnchor;// *listener.getVolume();
 
@@ -81,5 +81,5 @@ void Particle_helix::draw(const bool overlay, const std::list < ci::Vec2f> &vpos
 		gl::vertex(mPositions.front());
 	glEnd();
 
-	drawPositions();
+	//drawPositions();
 }

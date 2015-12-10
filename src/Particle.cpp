@@ -57,5 +57,5 @@ void Particle::draw(const bool overlay, const std::list< ci::Vec2f > &vpos){
 		}
 	}
 	
-	drawPositions();
+	//drawPositions();
 }

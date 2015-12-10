@@ -76,6 +76,6 @@ void Particle_queue::draw(const bool overlay, const std::list< ci::Vec2f > &vpos
 			}
 		}
 	}
-	drawPositions();
+	//drawPositions();
 	gl::popMatrices();
 }

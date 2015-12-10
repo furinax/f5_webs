@@ -31,7 +31,7 @@ Particle_fft::Particle_fft(const std::list< ci::Vec2f > &vpos){
 	
 	mRadius = 50.f;
 
-	mColor = ci::Color(1.f, 1.f, 1.f);
+	mColor = ci::ColorA(.9f, .7f, .2f, .5f);
 	mOverlayColor.r = listener.getBinVolume(40)/200;
 	mOverlayColor.g = 1.f - listener.getBinVolume(40)/200;
 	mOverlayColor.b = 1.f - listener.getBinVolume(40)/200;

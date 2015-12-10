@@ -87,7 +87,7 @@ void Particle_sphere::draw(const bool overlay, const std::list< ci::Vec2f > &vpo
 		}
 	}
 
-	drawPositions();
+	//drawPositions();
 }
 
 bool Particle_sphere::isActive(const ci::Vec2f &lpos, const ci::Vec3f &rpos)

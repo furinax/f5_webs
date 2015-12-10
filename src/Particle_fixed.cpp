@@ -72,5 +72,5 @@ void Particle_fixed::draw(const bool overlay, const std::list< ci::Vec2f > &vpos
 	}
 	glEnd();
 	
-	drawPositions();
+	//drawPositions();
 }

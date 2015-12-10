@@ -75,7 +75,7 @@ void Particle_flat::draw(const bool overlay, const std::list< ci::Vec2f > &vpos)
 		}
 	}
 
-	drawPositions();
+	//drawPositions();
 }
 
 void Particle_flat::convexLine(const float offset, const Vec3f loc )

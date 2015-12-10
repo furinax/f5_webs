@@ -32,6 +32,7 @@ class f5_websApp : public AppNative {
 	int mTotalParticles = 0;
 	bool mParamsVisible = true;
 	bool mTrackerVisible = false;
+	bool mFullScreen = false;
 	float mVolume = 0;
 	MusicPlayer mMusicPlayer;
 	//CameraPersp mCam;
@@ -42,7 +43,7 @@ class f5_websApp : public AppNative {
 void f5_websApp::setup()
 {
 	// SET WINDOW
-	setWindowSize(1280, 720);
+	setWindowSize(1920, 1080);
 	setFrameRate(30.f);
 	gl::color(Color::black());
 
@@ -111,14 +112,18 @@ void f5_websApp::keyDown(KeyEvent event)
 		t.mOffset = Vec2f::zero();
 		t.mScaleUpAdjust = Vec2f(1.f, 1.f);
 		break;
+	case 'l':
+		mFullScreen = !mFullScreen;
+		setFullScreen(mFullScreen);
+		break;
 	}
 }
 
 void f5_websApp::update()
 {
 
-	if (!mMusicPlayer.mIsStarted )
-		mMusicPlayer.start();
+	//if (!mMusicPlayer.mIsStarted )
+	//	mMusicPlayer.start();
 
 
 	// UPDATE CAMERA
@@ -138,12 +143,9 @@ void f5_websApp::update()
 	int particleCount = 0;
 	for (int i = 0; i < pss.size(); i++ )
 	{
-//		pss[i].update(t.getBlobCenters());
-//		pf.perform(t.getBlobCenters(), pss[i]);
-//		particleCount += pss[i].mParticles.size();
 
 		pss[i].update(mMousePosition);
-		pf.perform(mMousePosition, pss[i]);
+		pf.create(mMousePosition, pss[i]);
 		particleCount += pss[i].mParticles.size();
 	}
 	mTotalParticles = particleCount;

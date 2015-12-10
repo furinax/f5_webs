@@ -68,8 +68,8 @@ void ParticleFactory::create(const std::list< ci::Vec2f > &vpos, ParticleSystem 
 			ps.addParticle(particle);
 		}break;
 		case PARTICLE_TRAIL:{
-				Particle* particle = new Particle_trail( vpos );
-				ps.addParticle(particle);
+			Particle* particle = new Particle_trail( vpos );
+			ps.addParticle(particle);
 		}break;
 		case PARTICLE_FFT:{
 			Particle* particle = new Particle_fft(vpos);

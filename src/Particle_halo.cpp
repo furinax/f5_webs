@@ -17,6 +17,7 @@ Particle_halo::Particle_halo(const std::list< ci::Vec2f > &vpos){
 	mRadiusAnchor = 500.f;
 	mRadius = 50 * listener.getVolume() + mMinRadius;
 	mLineWidth = 5.f * listener.getVolume();
+	mAngle = getElapsedSeconds();
 
 	for (auto pos : vpos )
 	{
@@ -59,8 +60,6 @@ void Particle_halo::draw(const bool overlay, const std::list< ci::Vec2f > &vpos)
 	gl::lineWidth(mLineWidth);
 	glBegin(GL_LINES);
 	
-	//gl::color(adjustedColor);
-	
 	float step = (mRadiusAnchor - mMinRadius) / 10.f;
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
 	{
@@ -68,19 +67,19 @@ void Particle_halo::draw(const bool overlay, const std::list< ci::Vec2f > &vpos)
 		{
 		
 			Vec3f &loc = *iter;
-			gl::color(ColorA(cos(tempRadius / (step * 10)), 1.f - tempRadius/mRadiusAnchor, 1.f - mAgeMap, mAgeMap ));
+			gl::color(ColorA(mAgeMap, mAgeMap , 1.f - mAgeMap, mAgeMap ));
 			gl::vertex(tempRadius * loc);
 			gl::vertex((tempRadius + step) * loc);
 		}
 	}
 	glEnd();
 	gl::popMatrices();
-	drawPositions();
+	//drawPositions();
 }
 
 void Particle_halo::roundAngle(ci::Vec3f& pos, const float denomination)
 {
-	float angle = asin((pos.x > 0 ? -1 : 1) *pos.y);
+	float angle = asin((pos.x > 0 ? -1 : 1) * pos.y);
 	float iPart;
 	float fPart = modf(angle / denomination, &iPart);
 	if (fPart > 0.5f)
