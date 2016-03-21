@@ -16,7 +16,7 @@ Particle_halo::Particle_halo(const std::list< ci::Vec2f > &vpos){
 	Listener &listener = Listener::getInstance();
 	mRadiusAnchor = 500.f;
 	mRadius = 50 * listener.getVolume() + mMinRadius;
-	mLineWidth = 5.f * listener.getVolume();
+	mLineWidth = 5.f;// *listener.getVolume();
 
 	float s = getElapsedSeconds();
 
@@ -30,7 +30,7 @@ Particle_halo::Particle_halo(const std::list< ci::Vec2f > &vpos){
 
 	
 	mColor = ci::Color(randInt(5) * .25f, randInt(5) * .25f, randInt(5) * .25f);
-	mOverlayColor = ci::Color::white();
+	mOverlayColor = 1.5 * mColor;
 
 	mLifespan = 40;
 
@@ -70,6 +70,7 @@ void Particle_halo::draw(const bool overlay, const std::list< ci::Vec2f > &vpos)
 			Vec3f &loc = *iter;
 			mAngle = sin(loc.y / loc.x);
 			gl::color(adjustedColor);
+			gl::vertex(tempRadius * loc);
 			gl::vertex((tempRadius + step) * loc);
 		}
 	}
