@@ -104,11 +104,54 @@ void ParticleFactory::perform(const std::list< ci::Vec2f > &vpos, ParticleSystem
 	{
 		Particle* particle = new Particle_hex(vpos);
 		ps.addParticle(particle);
+		particle = new Particle_trail(vpos);
+		ps.addParticle(particle);
 	}
-	if (adjustedTime >= 42 && adjustedTime < 70)
+	if (adjustedTime >= 42 && adjustedTime < 90)
 	{
 		Particle* particle = new Particle_circle(vpos);
 		ps.addParticle(particle);
 	}
+	if (adjustedTime >= 90 && adjustedTime < 120)
+	{
+		Particle* particle = new Particle_queue(vpos);
+		ps.addParticle(particle);
+	}
+	if (adjustedTime >= 120 && adjustedTime < 150) // 2:00-2:30
+	{
+		Particle* particle = new Particle_spring(vpos);
+		ps.addParticle(particle);
+		particle = new Particle_horizon(vpos);
+		ps.addParticle(particle);
+	}
 
+	if (adjustedTime >= 150 && adjustedTime < 180) // 2:30 - 3:00
+	{
+		Particle* particle = new Particle_flat(vpos);
+		ps.addParticle(particle);
+	}
+
+	if (adjustedTime >= 180 && adjustedTime < 210) //3:00-3:30
+	{
+		Particle* particle = new Particle_sphere(vpos);
+		ps.addParticle(particle);
+	}
+
+	if (adjustedTime >= 210 && adjustedTime < 240) //3:30-4:00
+	{
+		Particle* particle = new Particle_helix(vpos);
+		ps.addParticle(particle);
+	}
+
+	if (adjustedTime >= 240 && adjustedTime < 255) //4:00-4:15
+	{
+		Particle* particle = new Particle_trail(vpos);
+		ps.addParticle(particle);
+	}
+
+	if (adjustedTime >= 255 && adjustedTime < 285) //4:15-4:45
+	{
+		Particle* particle = new Particle_torrent(vpos);
+		ps.addParticle(particle);
+	}
 }

@@ -15,10 +15,10 @@ Particle_torrent::Particle_torrent(const std::list< ci::Vec2f > &vpos){
 	addPosition(mAnchorPosition);
 
 	mRadiusAnchor = 50.f;
-	mRadius = 50;// *randFloat();
+	mRadius = 50;
 
-	mColor = ci::Color(.4f, 0.2f, 0.f);
 	mOverlayColor = ci::Color(.9, .5, .9);
+	mColor = ci::Color(.4f, 0.2f, 0);
 
 	mVel = Vec3f(35 * randVec2f() , 0); //this is a base, we will rotate it based on mAnchorPosition
 	mDrag = .9f;
@@ -34,7 +34,7 @@ void Particle_torrent::update(const std::list< ci::Vec2f > &vpos){
 	mAgeMap = 1.0f - (mAge / (float)mLifespan);
 	
 	Listener &listener = Listener::getInstance();
-	mRadius = listener.getVolume()*mRadiusAnchor;
+	mRadius = mRadiusAnchor;
 
 	float noise = mPerlin.fBm(Vec3f(mPositions.front() * (0.005f + (float)getElapsedSeconds())));
 	float angle = noise * 15.f;
@@ -57,12 +57,11 @@ void Particle_torrent::update(const std::list< ci::Vec2f > &vpos){
 			}
 			else
 			{
-				mLineWidth = 1.f;
+				mLineWidth = 0.f;
 				mOverlayColor = ci::Color(0.f, .2f, .7f);
 			}
 		}
 	}
-	
 }
 
 void Particle_torrent::draw(const bool overlay, const std::list< ci::Vec2f > &vpos){
@@ -76,17 +75,20 @@ void Particle_torrent::draw(const bool overlay, const std::list< ci::Vec2f > &vp
 	}
 	gl::color(adjustedColor);
 	Listener &listener = Listener::getInstance();
-	gl::lineWidth(mLineWidth);
-	gl::pushMatrices();
-	gl::rotate(20*sin(getElapsedSeconds()/8.f));
-	glBegin(GL_LINE_STRIP);
-
-	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
+	if (mLineWidth != 0)
 	{
-		Vec3f &loc = *iter;
-		gl::vertex(loc);
+		gl::lineWidth(mLineWidth);
+		//gl::pushMatrices();
+		//gl::rotate(20 * sin(getElapsedSeconds() / 8.f));
+		glBegin(GL_LINE_STRIP);
+
+		for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
+		{
+			Vec3f &loc = *iter;
+			gl::vertex(loc);
+		}
+		glEnd();
+		//gl::popMatrices();
 	}
-	glEnd();
-	gl::popMatrices();
 	//drawPositions();
 }

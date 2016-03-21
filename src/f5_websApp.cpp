@@ -72,8 +72,8 @@ void f5_websApp::setup()
 	mParams.addParam("Total particles", &mTotalParticles, "readonly=1");
 	mParams.addParam("Volume", &mVolume, "readonly=1");
 	mParams.addParam("Scale", &listener.mScale, "min=0.1 max=40.0 step=0.1");
-	mParams.addParam("CenterX", &t.mOffset.x, "min=-200 max=200 step=5 keyIncr=f keyDecr=s");
-	mParams.addParam("CenterY", &t.mOffset.y, "min=-200 max=200 step=5 keyIncr=a keyDecr=e");
+	mParams.addParam("CenterX", &t.mOffset.x, "min=-200 max=200 step=5 keyIncr=D keyDecr=A");
+	mParams.addParam("CenterY", &t.mOffset.y, "min=-200 max=200 step=5 keyIncr=W keyDecr=S");
 	mParams.addParam("mScaleUpX", &t.mScaleUpAdjust.x, "min=0.00 max=2.00 step=0.05 keyIncr=r keyDecr=w");
 	mParams.addParam("mScaleUpY", &t.mScaleUpAdjust.y, "min=0.00 max=2.00 step=0.05 keyIncr=t keyDecr=g");
 	mParams.addParam("Tracker visible?", &mTrackerVisible, "");
@@ -112,7 +112,7 @@ void f5_websApp::keyDown(KeyEvent event)
 		t.mOffset = Vec2f::zero();
 		t.mScaleUpAdjust = Vec2f(1.f, 1.f);
 		break;
-	case 'l':
+	case 'f':
 		mFullScreen = !mFullScreen;
 		setFullScreen(mFullScreen);
 		break;

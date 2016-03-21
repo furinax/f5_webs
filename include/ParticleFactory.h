@@ -27,7 +27,7 @@ enum particle_choice
 	PARTICLE_HALO, //2
 	PARTICLE_HORIZON, //3 red shear
 	PARTICLE_HELIX, //4 rising hexes
-	PARTICLE_SPHERE, //5 two nest circles
+	PARTICLE_SPHERE, //5 polar attraction
 	PARTICLE_FLAT, //6 grid lines
 	PARTICLE_FIELD, //7 moving volume lines
 	PARTICLE_SPRING, //8 circles
@@ -48,7 +48,7 @@ public:
 	//perform: for synchronization to a track
 	void perform(const std::list< ci::Vec2f > &vpos, ParticleSystem & ps);
 
-	int d_particleToCreate = 1;
+	int d_particleToCreate = 2;
 	double d_offsetTime = 0;
 	double d_adjustSeconds = 0.f; //negative means delay the visuals, positive means speed them up
 

@@ -76,7 +76,7 @@ void ParticleSystem::draw(const std::list< ci::Vec2f > &vpos){
 
 	blurShader.bind();
 	blurShader.uniform("tex0", 0); // use mFboBlurred, see lower
-	blurShader.uniform("sampleOffset", Vec2f(1.5f / 800.0f, 0.0f));
+	blurShader.uniform("sampleOffset", Vec2f(2.5f / 800.0f, 0.0f));
 
 	mFboTemporary.bindFramebuffer();
 	gl::clear(Color::black());
@@ -88,7 +88,7 @@ void ParticleSystem::draw(const std::list< ci::Vec2f > &vpos){
 	mFboBlurred.unbindTexture();
 	mFboTemporary.unbindFramebuffer();
 
-	blurShader.uniform("sampleOffset", Vec2f(0.0f, 1.5f / 600.0f));
+	blurShader.uniform("sampleOffset", Vec2f(0.0f, 2.5f / 600.0f));
 
 	mFboBlurred.bindFramebuffer();
 	gl::clear(Color::black());
