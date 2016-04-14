@@ -12,11 +12,11 @@ using namespace ci::app;
 
 Particle_halo::Particle_halo(const std::list< ci::Vec2f > &vpos){
 	mMinRadius = 50;
-	mAnchorPosition = Vec3f(getWindowCenter(), 0);
 	Listener &listener = Listener::getInstance();
+	mAnchorPosition = Vec3f(getWindowCenter(), 0);
 	mRadiusAnchor = 500.f;
 	mRadius = 50 * listener.getVolume() + mMinRadius;
-	mLineWidth = 5.f;// *listener.getVolume();
+	mLineWidth = .25f*listener.getBinVolume(32);
 
 	float s = getElapsedSeconds();
 
@@ -32,7 +32,7 @@ Particle_halo::Particle_halo(const std::list< ci::Vec2f > &vpos){
 	mColor = ci::Color(randInt(5) * .25f, randInt(5) * .25f, randInt(5) * .25f);
 	mOverlayColor = 1.5 * mColor;
 
-	mLifespan = 40;
+	mLifespan = 5;
 
 }
 
@@ -42,9 +42,12 @@ void Particle_halo::update(const std::list< ci::Vec2f > &vpos){
 		mIsDead = true;
 
 	mAgeMap = 1.0f - (mAge / (float)mLifespan);
+
+	mColor.a = mAgeMap;
+	mOverlayColor.a = mAgeMap;
 	
 	Listener &listener = Listener::getInstance();
-	mRadius = 50 * listener.getVolume() + mMinRadius;
+	//mRadius = 50 * listener.getVolume() + mMinRadius;
 }
 
 void Particle_halo::draw(const bool overlay, const std::list< ci::Vec2f > &vpos){

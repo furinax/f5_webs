@@ -11,36 +11,26 @@ using namespace ci::app;
 #include "Resources.h"
 
 Particle_helix::Particle_helix(const std::list< ci::Vec2f > &vpos){
-	mRadiusAnchor = getWindowWidth();
+
 	Listener &listener = Listener::getInstance();
-	mRadius = mRadiusAnchor;// *listener.getVolume();
+	mRadius = listener.getBinVolume(80);
+	mRadiusAnchor = 20;
 
-	mAnchorPosition = Vec3f::zero();
-	mAnchorPosition.x += getWindowWidth() / 2.f;
-	mAnchorPosition.y = getWindowHeight() + 100;
-	drawHelix( 6 );
-
-	mColor = ci::Color(1.f, listener.getVolume() * .5f, 0.f);
+	mColor = ci::Color(randInt(5) * .25f, randInt(5) * .25f, randInt(5) * .25f);
 	mOverlayColor = Color::white();
 
-	mVel = Vec3f(0.f, -40.f, 0.f);
-	mDrag = 10.f * listener.getVolume();
-	mLifespan = 100;
+	mVel = Vec3f(0,-10.f, 0);
+	mDrag = 1.f;
+	mLifespan = 110;
 
-}
-
-void Particle_helix::drawHelix(const int args_steps)
-{
-	
-	mAngle = 2 * M_PI / args_steps;
-	Vec3f temp = Vec3f(1.f, 0.f, 0.f) * mRadius;
-	temp.rotateY(getElapsedSeconds());
-	for (int steps = 0; steps < args_steps; steps++)
+	for (int i = 0; i < mRadiusAnchor; i++)
 	{
-		addPosition(Vec3f(temp) + mAnchorPosition);
-		temp.rotateY(mAngle);
+		addPosition(Vec3f(i * getWindowWidth() / mRadiusAnchor, getWindowHeight(), 0));
 	}
+
 }
+
+
 
 void Particle_helix::update(const std::list< ci::Vec2f > &vpos){
 	mAge++;
@@ -50,12 +40,14 @@ void Particle_helix::update(const std::list< ci::Vec2f > &vpos){
 	mAgeMap = 1.0f - (mAge / (float)mLifespan);
 
 	Listener &listener = Listener::getInstance();
-
-	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
+	mRadius = 10 * listener.getBinVolume(80);
+	mVel += mAcc;
+	mVel *= mDrag;
+	for (auto &pos : mPositions)
 	{
-		(*iter) += mVel;
-		//mVel.rotateZ(mAngle);
+		pos += mVel;
 	}
+
 }
 
 void Particle_helix::draw(const bool overlay, const std::list < ci::Vec2f> &vpos){
@@ -67,19 +59,32 @@ void Particle_helix::draw(const bool overlay, const std::list < ci::Vec2f> &vpos
 	{
 		adjustedColor = ColorA(mOverlayColor);
 	}
-	adjustedColor.a = mAgeMap;
 	gl::color(adjustedColor);
 	Listener &listener = Listener::getInstance();
-	gl::lineWidth(mDrag);
-	glBegin(GL_LINE_STRIP);
+	
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
 	{
 		Vec3f &loc = *iter;
-		gl::vertex(loc);
-	}
-	if (mPositions.size() > 2 )
-		gl::vertex(mPositions.front());
-	glEnd();
 
-	//drawPositions();
+		for (auto pos : vpos)
+		{
+			float distance = pos.distance(Vec2f(loc.x, loc.y));
+			if (distance < mRadius)
+			{
+				mLineWidth = 5.f;
+				break;
+			}
+			else
+			{
+				mLineWidth = 1.f;
+			}
+		}
+
+		gl::lineWidth(mLineWidth);
+		glBegin(GL_LINES);
+		gl::vertex(loc);
+		gl::vertex(Vec3f(loc.x + (getWindowWidth() / mRadiusAnchor), loc.y, 0));
+		glEnd();
+	}
+	drawPositions();
 }

@@ -27,7 +27,7 @@ Particle_circle::Particle_circle(const std::list< ci::Vec2f > &vpos){
 	mOverlayColor = Color::white();
 	Listener& listener = Listener::getInstance();
 
-	mVel = Vec3f(0, 30.f, 50 * listener.getVolume()); //this is a base, we will rotate it based on mAnchorPosition
+	mVel = Vec3f(0, 30.f, 3 * listener.getBinVolume(24)); //this is a base, we will rotate it based on mAnchorPosition
 	mVel.rotateZ(getElapsedSeconds());
 
 	mLifespan = 20;

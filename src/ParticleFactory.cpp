@@ -75,12 +75,13 @@ void ParticleFactory::create(const std::list< ci::Vec2f > &vpos, ParticleSystem 
 			Particle* particle = new Particle_fft(vpos);
 			ps.addParticle(particle);
 		}break;
-		case PARTICLE_FIXED:{
-			for (auto pos : vpos)
-			{		
-				Particle* particle = new Particle_fixed(std::list < Vec2f > {pos});
-				ps.addParticle(particle);
-			}
+		case PARTICLE_RIPPLE:{	
+			Particle* particle = new Particle_ripple(vpos);
+			ps.addParticle(particle);
+		}break;
+		case PARTICLE_PATH:{
+			Particle* particle = new Particle_path(vpos);
+			ps.addParticle(particle);
 		}break;
 		default:
 			ci::app::console() << "UNKNOWN PARTICLE: " << d_particleToCreate;

@@ -165,7 +165,7 @@ void f5_websApp::draw()
 	if (mParticlesVisible)
 	{
 		for (int i = 0; i < pss.size(); i++)
-			pss[i].draw(mMousePosition);//t.getBlobCenters());
+			pss[i].draw(mMousePosition);
 	}
 }
 

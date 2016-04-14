@@ -33,7 +33,7 @@ void Particle_hex::drawHex(const int args_steps, const int offsetX = 0, const in
 	mAngle = 2 * M_PI / args_steps;
 
 	float angle = 0.f;
-	for (int steps = 0 ; steps < args_steps; steps++)
+	for (int steps = 0; steps < args_steps; steps++)
 	{
 		addPosition(Vec3f(width*cos(angle), height*sin(angle), 0));
 		angle += mAngle;

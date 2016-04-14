@@ -41,8 +41,8 @@ Particle_text::Particle_text(const std::list< ci::Vec2f > &vpos){
 
 	mRadius = 50.f;
 
-	mColor = ci::Color(0.2f, 1.f, 0.2f);
-	mOverlayColor = Color::white();
+	mColor = ci::Color(0.6f, 0.2f, 0.0f);
+	mOverlayColor = Color::black();
 
 	mVel = Vec3f(2.f,0,0);
 	mLifespan = 1000;

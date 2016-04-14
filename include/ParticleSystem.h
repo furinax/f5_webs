@@ -27,5 +27,5 @@ public:
 	ci::gl::Fbo mFboBlurred, mFboTemporary, mFbo;
 	ci::gl::GlslProg blurShader;
 	int mOrientation = 1;
-	int mUnderlays = 2;
+	int mUnderlays = 3;
 };

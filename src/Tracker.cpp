@@ -29,7 +29,7 @@ void Tracker::setup()
 		mCapture = Capture(
 			getWindowWidth() < WEBCAM_MAX_WIDTH ? getWindowWidth() : WEBCAM_MAX_WIDTH,
 			getWindowHeight() < WEBCAM_MAX_HEIGHT ? getWindowHeight() : WEBCAM_MAX_HEIGHT);//,
-//			Capture::findDeviceByName("Logitech HD Pro Webcam C910"));
+			Capture::findDeviceByName("Logitech HD Pro Webcam C910");
 		mCapture.start();
 	}
 	catch (...) {
@@ -41,7 +41,7 @@ void Tracker::setup()
 
 	//this is the 2nd algorithm
 	cv::SimpleBlobDetector::Params params;
-	params.minThreshold = 25;
+	params.minThreshold = 10;
 	params.maxThreshold = 255;
 	params.thresholdStep = 5;
 

@@ -18,7 +18,8 @@
 #include "Particle_hex.h"
 #include "Particle_trail.h"
 #include "Particle_fft.h"
-#include "Particle_fixed.h"
+#include "Particle_ripple.h"
+#include "Particle_path.h"
 
 enum particle_choice
 {
@@ -26,7 +27,7 @@ enum particle_choice
 	PARTICLE_TEXT, //1
 	PARTICLE_HALO, //2
 	PARTICLE_HORIZON, //3 red shear
-	PARTICLE_HELIX, //4 rising hexes
+	PARTICLE_HELIX, //4 cascade
 	PARTICLE_SPHERE, //5 polar attraction
 	PARTICLE_FLAT, //6 grid lines
 	PARTICLE_FIELD, //7 moving volume lines
@@ -37,7 +38,8 @@ enum particle_choice
 	PARTICLE_HEX, //12 expanding spiral
 	PARTICLE_TRAIL, //13 simple history
 	PARTICLE_FFT, //14 bars
-	PARTICLE_FIXED //15 square turns
+	PARTICLE_RIPPLE, //15 expanding circles
+	PARTICLE_PATH //16 paths leading outwards
 };
 
 class ParticleFactory
@@ -48,7 +50,7 @@ public:
 	//perform: for synchronization to a track
 	void perform(const std::list< ci::Vec2f > &vpos, ParticleSystem & ps);
 
-	int d_particleToCreate = 2;
+	int d_particleToCreate = 16;
 	double d_offsetTime = 0;
 	double d_adjustSeconds = 0.f; //negative means delay the visuals, positive means speed them up
 
