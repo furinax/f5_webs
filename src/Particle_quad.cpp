@@ -56,6 +56,8 @@ void Particle_quad::update(const std::list< ci::Vec2f > &vpos){
 		currentPos += mVelRotated;
 		mVelRotated = rotMatrix * mVelRotated;
 	}
+
+	mRadius = 5 * listener.getBinVolume(24);
 }
 
 Vec3f Particle_quad::getPosition(const float orientation)

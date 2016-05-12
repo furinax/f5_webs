@@ -25,7 +25,7 @@ Particle_helix::Particle_helix(const std::list< ci::Vec2f > &vpos){
 
 	for (int i = 0; i < mRadiusAnchor; i++)
 	{
-		addPosition(Vec3f(i * getWindowWidth() / mRadiusAnchor, getWindowHeight(), 0));
+		addPosition(Vec3f(i * getWindowWidth() / mRadiusAnchor, getWindowHeight(), 200*sin((float) i/(2*M_PI))));
 	}
 
 }

@@ -16,14 +16,15 @@ Particle_path::Particle_path(const std::list< ci::Vec2f > &vpos){
 	addPosition(mAnchorPosition);
 	Listener& listener = Listener::getInstance();
 
-	mAngle = .8f * (1.f-listener.getVolume());
+	mAngle = randInt(3) * 2.f * M_PI / 3.f;//.8f * (1.f-listener.getVolume());
 
-	mColor = ci::Color(1.f, .5f * sin( getElapsedSeconds() )+0.5f, 0.5f * cos( getElapsedSeconds() / 2) + 0.5f );
+	//mColor = ci::Color(1.f, .5f * sin( getElapsedSeconds() )+0.5f, 0.5f * cos( getElapsedSeconds() / 2) + 0.5f );
 	mOverlayColor = ci::Color(1.f, .5f * sin(getElapsedSeconds()) + 0.5f, 0.5f * cos(getElapsedSeconds() / 2) + 0.5f);
 
 	mRadius = listener.getBinVolume(100)*.1f * 50.f;
 
-	mVel = mRadius * Vec3f::one();
+	mVel = mRadius * Vec3f(1.f, 0.f, 0.f);
+	mVel.rotateZ(mAngle);
 	mVel.rotateZ(getElapsedSeconds());
 	mLifespan = 25;
 
@@ -34,14 +35,15 @@ void Particle_path::update(const std::list< ci::Vec2f > &vpos){
 	if (mAge > mLifespan)
 		mIsDead = true;
 
-	mVel.rotateZ(mAngle);
-
 	mAgeMap = 1.0f - (mAge / (float)mLifespan);
 	mOverlayColor.a = .1f * mAgeMap;
 	mVel += mAcc;
 	mVel *= mDrag;
 	
 	addPosition(Vec3f( mPositions.front() + mVel ));
+
+	mAngle = randInt(3) * 2.f * M_PI / 3.f;
+	mVel.rotateZ(mAngle);
 }
 
 void Particle_path::draw(const bool overlay, const std::list< ci::Vec2f > &vpos){

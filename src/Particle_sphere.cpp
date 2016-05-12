@@ -52,7 +52,7 @@ void Particle_sphere::update(const std::list< ci::Vec2f > &vpos){
 		reAnchor();
 	}
 
-	//mVel.rotateZ(mAngle);
+	mVel.rotateZ(rand());
 	mVel += mAcc;
 	mVel *= mDrag;
 
