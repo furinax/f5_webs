@@ -107,6 +107,7 @@
     <ResourceCompile Include="Resources.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\CatmullRom.cpp" />
     <ClCompile Include="..\src\f5_websApp.cpp" />
     <ClCompile Include="..\src\Listener.cpp" />
     <ClCompile Include="..\src\MusicPlayer.cpp" />
@@ -133,6 +134,7 @@
     <ClCompile Include="..\src\Tracker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\CatmullRom.h" />
     <ClInclude Include="..\include\Listener.h" />
     <ClInclude Include="..\include\MusicPlayer.h" />
     <ClInclude Include="..\include\Particle.h" />

@@ -83,7 +83,7 @@ void Particle_helix::draw(const bool overlay, const std::list < ci::Vec2f> &vpos
 		gl::lineWidth(mLineWidth);
 		glBegin(GL_LINES);
 		gl::vertex(loc);
-		gl::vertex(Vec3f(loc.x + (getWindowWidth() / mRadiusAnchor), loc.y, 0));
+		gl::vertex(Vec3f(loc.x + (getWindowWidth() / mRadiusAnchor), loc.y, loc.z));
 		glEnd();
 	}
 	drawPositions();

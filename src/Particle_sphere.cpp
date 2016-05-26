@@ -10,6 +10,9 @@ using namespace ci::app;
 #include "cinder/gl/GlslProg.h"
 #include "Resources.h"
 #include "cinder/CinderMath.h"
+#include "CatmullRom.h"
+#include <list>
+#include <algorithm>
 
 Particle_sphere::Particle_sphere(const std::list< ci::Vec2f > &vpos){
 	mRadius = 150.f;
@@ -24,10 +27,10 @@ Particle_sphere::Particle_sphere(const std::list< ci::Vec2f > &vpos){
 	mColor = ci::Color(0.f, 0.f, 1.f);
 	mOverlayColor = Color::white();
 	mLineWidth = listener.getVolume() * 5.f + 1.f;
-	mAcc = 10.f * randVec3f();
-	mVel = 7.f * mAcc;
+
+	mVel = 70.f * randVec3f();
 	mDrag = .8f;
-	mAngle = .25f * sin(getElapsedSeconds());
+	mAngle = .15f;
 	mLifespan = 50;
 }
 
@@ -48,11 +51,13 @@ void Particle_sphere::update(const std::list< ci::Vec2f > &vpos){
 		float distanceF = Vec3f(vpos.front(), 0).distance(mAnchorPosition);
 		float distanceL = Vec3f(vpos.back(), 0).distance(mAnchorPosition);
 		mAnchorPosition = distanceL > distanceF ? Vec3f(vpos.front(), 0):  Vec3f(vpos.back(), 0);
-		mAcc = (distanceL > distanceF ? -1 : 1) * .025f * (Vec3f(vpos.front(), 0) - Vec3f(vpos.back(), 0));
+		//mAcc = (distanceL > distanceF ? -1 : 1) * .025f * (Vec3f(vpos.front(), 0) - Vec3f(vpos.back(), 0));
+		mAcc = Vec3f(getWindowCenter() - (distanceL > distanceF ? vpos.front() : vpos.back()), 0) * .25f;
+		//mVel.rotateZ( ( ( mAnchorPosition.x > getWindowWidth() / 2.f ) ?  -1 : 1 )* mAngle);
+
 		reAnchor();
 	}
 
-	mVel.rotateZ(rand());
 	mVel += mAcc;
 	mVel *= mDrag;
 
@@ -70,7 +75,14 @@ void Particle_sphere::draw(const bool overlay, const std::list< ci::Vec2f > &vpo
 		adjustedColor = ColorA(mOverlayColor);
 	}
 
-	Listener &listener = Listener::getInstance();
+	std::list<ci::Vec2f> mPositions2d;
+	std::transform(mPositions.begin(), mPositions.end(), 
+		std::back_inserter(mPositions2d),
+		[](Vec3f p) {return Vec2f(p.x, p.y); }
+	);
+	CatmullRom::draw(mPositions2d, mLineWidth, 1.f, adjustedColor);
+
+	/*Listener &listener = Listener::getInstance();
 	gl::lineWidth(mLineWidth);
 	adjustedColor.a = listener.getVolume();
 	gl::color(adjustedColor);
@@ -80,7 +92,7 @@ void Particle_sphere::draw(const bool overlay, const std::list< ci::Vec2f > &vpo
 		Vec3f &loc = *iter;
 		gl::vertex(loc);
 	}
-	glEnd();
+	glEnd();*/
 	//drawPositions();
 }
 
