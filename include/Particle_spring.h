@@ -10,4 +10,5 @@ class Particle_spring : public Particle{
 public:
 	Particle_spring(const std::list< ci::Vec2f > &vpos);
 	void update(const std::list< ci::Vec2f > &vpos);
+	void draw(const bool overlay, const std::list< ci::Vec2f > &vpos);
 };

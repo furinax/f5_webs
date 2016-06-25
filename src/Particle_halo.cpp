@@ -9,6 +9,7 @@ using namespace ci::app;
 #include "cinder/gl/Fbo.h"
 #include "cinder/gl/GlslProg.h"
 #include "Resources.h"
+#include "CatmullRom.h"
 
 Particle_halo::Particle_halo(const std::list< ci::Vec2f > &vpos){
 	mMinRadius = 50;
@@ -16,16 +17,21 @@ Particle_halo::Particle_halo(const std::list< ci::Vec2f > &vpos){
 	mAnchorPosition = Vec3f(getWindowCenter(), 0);
 	mRadiusAnchor = 500.f;
 	mRadius = 50 * listener.getVolume() + mMinRadius;
-	mLineWidth = .25f*listener.getBinVolume(32);
+	mAngle = .25f*listener.getBinVolume(32);
+	mLineWidth = 5;
 
 	float s = getElapsedSeconds();
 
 	for (auto pos : vpos )
 	{
-		Vec3f temp = Vec3f(pos - getWindowCenter());
+		Vec2f temp = (pos - getWindowCenter());
 		temp.safeNormalize();
-		roundAngle(temp, 2.f * M_PI / 100.f);
-		addPosition(temp);
+		temp *= getWindowHeight();
+		temp.rotate(-mAngle);
+		addPosition(Vec3f(temp));
+		addPosition(.5f*Vec3f(pos - getWindowCenter()));
+		temp.rotate(2 * mAngle);
+		addPosition(Vec3f(temp));
 	}
 
 	
@@ -63,23 +69,25 @@ void Particle_halo::draw(const bool overlay, const std::list< ci::Vec2f > &vpos)
 	gl::pushMatrices();
 	gl::translate(mAnchorPosition);
 	gl::lineWidth(mLineWidth);
-	glBegin(GL_LINES);
+	glBegin(GL_LINE_STRIP);
 	
-	float step = (mRadiusAnchor - mMinRadius) / 10.f;
-	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
+	for (auto iterator = mPositions.begin(), end = mPositions.end(); iterator != end; std::advance(iterator, 3))
 	{
-		for (float tempRadius = mRadius; tempRadius < mRadiusAnchor; tempRadius += step)
-		{
-			Vec3f &loc = *iter;
-			mAngle = sin(loc.y / loc.x);
-			gl::color(adjustedColor);
-			gl::vertex(tempRadius * loc);
-			gl::vertex((tempRadius + step) * loc);
-		}
+		std::list<ci::Vec2f> mPositions2d;
+
+		auto end_iter = iterator;
+		std::advance(end_iter, 3);
+
+		std::transform(iterator, end_iter,
+			std::back_inserter(mPositions2d),
+			[](Vec3f p) {return Vec2f(p.x, p.y); });
+		CatmullRom::draw(mPositions2d, mLineWidth, 1.f, adjustedColor);
 	}
 	glEnd();
-	gl::popMatrices();
+
 	drawPositions();
+
+	gl::popMatrices();
 }
 
 void Particle_halo::roundAngle(ci::Vec3f& pos, const float denomination)

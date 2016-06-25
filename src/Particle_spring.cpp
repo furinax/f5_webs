@@ -50,3 +50,35 @@ void Particle_spring::update(const std::list< ci::Vec2f > &vpos){
 	}
 	mVel *= mDrag;
 }
+
+void Particle_spring::draw(const bool overlay, const std::list< ci::Vec2f > &vpos){
+
+	ColorA adjustedColor;
+	if (!overlay)
+		adjustedColor = ColorA(mColor);
+	else
+	{
+		adjustedColor = ColorA(mOverlayColor);
+	}
+
+	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
+	{
+		Vec3f &loc = *iter;
+		for (auto pos : vpos)
+		{
+			float distance = pos.distance(Vec2f(loc.x, loc.y));
+			if (distance < mRadius)
+			{
+				adjustedColor.a = ci::lmap(distance, 0.f, mRadius, 1.f, 0.f);
+				gl::color(adjustedColor);
+				gl::lineWidth(ci::math<float>::clamp(ci::lmap(loc.z, -500.f, 500.f, 0.f, 3.f), 0.f, 3.f));
+				glBegin(GL_LINES);
+				gl::vertex(Vec2f(loc.x, pos.y));
+				gl::vertex(loc);
+				glEnd();
+			}
+		}
+	}
+
+	//drawPositions();
+}

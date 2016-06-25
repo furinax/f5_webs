@@ -1,8 +1,11 @@
 #include "ParticleFactory.h"
 #include "cinder/gl/gl.h"
+#include "ParticleTrack.h"
 
 using namespace ci;
 using namespace ci::app;
+
+std::map< key_t, void(*)(const std::list< ci::Vec2f > &vpos, ParticleSystem &ps) > trackMap(mTrack, mTrack + map_start_values_size);
 
 void ParticleFactory::create(const std::list< ci::Vec2f > &vpos, ParticleSystem & ps)
 {
@@ -92,92 +95,11 @@ void ParticleFactory::create(const std::list< ci::Vec2f > &vpos, ParticleSystem 
 void ParticleFactory::perform(const std::list< ci::Vec2f > &vpos, ParticleSystem & ps)
 {
 	double adjustedTime = getElapsedSeconds() + d_adjustSeconds - d_offsetTime;
-	if (adjustedTime < 0)
-		ci::app::console() << "waiting for song to start..." << std::endl;
 
-	if (adjustedTime >= 0 && adjustedTime < 20 && ps.mParticles.size() == 0)
+	for (const element_t elem : mTrack)
 	{
-		Particle* particle = new Particle_text(vpos);
-		ps.addParticle(particle);
+		if (adjustedTime >= elem.first.first && adjustedTime < elem.first.second)
+			elem.second(vpos, ps);
 	}
 
-	if ( adjustedTime >= 0 && adjustedTime < 42 )
-	{
-		Particle* particle = new Particle_hex(vpos);
-		ps.addParticle(particle);
-		particle = new Particle_trail(vpos);
-		ps.addParticle(particle);
-	}
-	if (adjustedTime >= 42 && adjustedTime < 43) //transition between initial buildup and start of song
-	{
-		Particle* particle = new Particle_queue(vpos);
-		ps.addParticle(particle);
-		particle = new Particle_torrent(vpos);
-		ps.addParticle(particle);
-	}
-
-	if (adjustedTime >= 42 && adjustedTime < 90) //main intro, loud
-	{
-		Particle* particle = new Particle_circle(vpos);
-		ps.addParticle(particle);
-		particle = new Particle_ripple(vpos);
-		ps.addParticle(particle);
-	}
-
-	if (adjustedTime >= 90 && adjustedTime < 120) //slow vocals
-	{
-		Particle* particle = new Particle_quad(vpos);
-		ps.addParticle(particle);
-	}
-	if (adjustedTime >= 120 && adjustedTime < 150) // 2:00-2:30
-	{
-		Particle* particle = new Particle_spring(vpos);
-		ps.addParticle(particle);
-		
-	}
-
-	if (adjustedTime >= 179 && adjustedTime < 180) // 2:59 - 3:00
-	{
-		// particle = new Particle_ripple(vpos);
-		//ps.addParticle(particle);
-		Particle* particle = new Particle_path(vpos);
-		ps.addParticle(particle);
-	}
-
-	if (adjustedTime >= 150 && adjustedTime < 180) // 2:30 - 3:00
-	{
-		Particle* particle = new Particle_flat(vpos);
-		ps.addParticle(particle);
-	}
-
-	if (adjustedTime >= 180 && adjustedTime < 210) //3:00-3:30
-	{
-		Particle* particle = new Particle_sphere(vpos);
-		ps.addParticle(particle);
-	}
-
-	if (adjustedTime >= 210 && adjustedTime < 240) //3:30-4:00
-	{
-		Particle* particle = new Particle_sphere(vpos);
-		ps.addParticle(particle);
-		if (int(adjustedTime*2) % 6 == 0)
-		{
-			Particle* particle = new Particle_helix(vpos);
-			ps.addParticle(particle);
-		}
-	}
-
-	if (adjustedTime >= 240 && adjustedTime < 255) //4:00-4:15
-	{
-		Particle* particle = new Particle_trail(vpos);
-		ps.addParticle(particle);
-		particle = new Particle_halo(vpos);
-		ps.addParticle(particle);
-	}
-
-	if (adjustedTime >= 255 && adjustedTime < 285) //4:15-4:45
-	{
-		Particle* particle = new Particle_horizon(vpos);
-		ps.addParticle(particle);
-	}
 }

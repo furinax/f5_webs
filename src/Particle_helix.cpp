@@ -21,11 +21,13 @@ Particle_helix::Particle_helix(const std::list< ci::Vec2f > &vpos){
 
 	mVel = Vec3f(0,-10.f, 0);
 	mDrag = 1.f;
-	mLifespan = 110;
+	
+	if (int(getElapsedSeconds() * 2) % 6 == 0)
+		mLifespan = 110;
 
 	for (int i = 0; i < mRadiusAnchor; i++)
 	{
-		addPosition(Vec3f(i * getWindowWidth() / mRadiusAnchor, getWindowHeight(), 200*sin((float) i/(2*M_PI))));
+		addPosition(Vec3f(i * getWindowWidth() / mRadiusAnchor, getWindowHeight() + 200.f, 200 * sin((float)i / (2 * M_PI))));
 	}
 
 }

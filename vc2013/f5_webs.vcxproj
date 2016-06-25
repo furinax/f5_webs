@@ -140,6 +140,7 @@
     <ClInclude Include="..\include\Particle.h" />
     <ClInclude Include="..\include\ParticleFactory.h" />
     <ClInclude Include="..\include\ParticleSystem.h" />
+    <ClInclude Include="..\include\ParticleTrack.h" />
     <ClInclude Include="..\include\Particle_circle.h" />
     <ClInclude Include="..\include\Particle_fft.h" />
     <ClInclude Include="..\include\Particle_field.h" />
