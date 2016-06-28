@@ -85,7 +85,7 @@ void Particle_halo::draw(const bool overlay, const std::list< ci::Vec2f > &vpos)
 	}
 	glEnd();
 
-	drawPositions();
+	//drawPositions();
 
 	gl::popMatrices();
 }

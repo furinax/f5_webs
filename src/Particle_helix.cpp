@@ -23,7 +23,7 @@ Particle_helix::Particle_helix(const std::list< ci::Vec2f > &vpos){
 	mDrag = 1.f;
 	
 	if (int(getElapsedSeconds() * 2) % 6 == 0)
-		mLifespan = 110;
+		mLifespan = 130;
 
 	for (int i = 0; i < mRadiusAnchor; i++)
 	{

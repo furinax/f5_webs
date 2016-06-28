@@ -35,21 +35,21 @@ const element_t mTrack[] = {
 		}
 	}),
 
-		element_t(key_t(0.f, 42.f), [](const std::list< ci::Vec2f > &vpos, ParticleSystem &ps){ //intro vis
+		element_t(key_t(0.f, 44.f), [](const std::list< ci::Vec2f > &vpos, ParticleSystem &ps){ //intro vis
 		Particle* particle = new Particle_hex(vpos);
 		ps.addParticle(particle);
 		particle = new Particle_trail(vpos);
 		ps.addParticle(particle);
 	}),
 
-		element_t(key_t(42.f, 43.f), [](const std::list< ci::Vec2f > &vpos, ParticleSystem &ps){  //transition between initial buildup and start of song
+		element_t(key_t(44.f, 46.f), [](const std::list< ci::Vec2f > &vpos, ParticleSystem &ps){  //transition between initial buildup and start of song
 		Particle* particle = new Particle_queue(vpos);
 		ps.addParticle(particle);
 		particle = new Particle_torrent(vpos);
 		ps.addParticle(particle);
 	}),
 
-		element_t(key_t(43.f, 90.f), [](const std::list< ci::Vec2f > &vpos, ParticleSystem &ps){  //main intro, loud
+		element_t(key_t(46.f, 90.f), [](const std::list< ci::Vec2f > &vpos, ParticleSystem &ps){  //main intro, loud
 		Particle* particle = new Particle_circle(vpos);
 		ps.addParticle(particle);
 		particle = new Particle_ripple(vpos);
@@ -70,12 +70,14 @@ const element_t mTrack[] = {
 		Particle* particle = new Particle_flat(vpos);
 		ps.addParticle(particle);
 	}),
-		element_t(key_t(179.f, 180.f), [](const std::list< ci::Vec2f > &vpos, ParticleSystem &ps){  // 2:59 - 3:00
-		Particle* particle = new Particle_path(vpos);
+		element_t(key_t(179.f, 184.f), [](const std::list< ci::Vec2f > &vpos, ParticleSystem &ps){  // 2:59 - 3:01
+		Particle* particle = new Particle_halo(vpos);
 		ps.addParticle(particle);
 	}),
-		element_t(key_t(180.f, 210.f), [](const std::list< ci::Vec2f > &vpos, ParticleSystem &ps){  //3:30-4:00
+		element_t(key_t(181.f, 210.f), [](const std::list< ci::Vec2f > &vpos, ParticleSystem &ps){  //3:01-3:30
 		Particle* particle = new Particle_sphere(vpos);
+		ps.addParticle(particle);
+		particle = new Particle_horizon(vpos);
 		ps.addParticle(particle);
 	}),
 		element_t(key_t(210.f, 240.f), [](const std::list< ci::Vec2f > &vpos, ParticleSystem &ps){  //3:30-4:00
@@ -85,15 +87,13 @@ const element_t mTrack[] = {
 		particle = new Particle_helix(vpos);
 		ps.addParticle(particle);
 	}),
-		element_t(key_t(240.f, 250.f), [](const std::list< ci::Vec2f > &vpos, ParticleSystem &ps){  //4:00-4:15
-		Particle* particle = new Particle_trail(vpos);
-		ps.addParticle(particle);
-		particle = new Particle_halo(vpos);
+		element_t(key_t(240.f, 255.f), [](const std::list< ci::Vec2f > &vpos, ParticleSystem &ps){  //4:00-4:15
+		Particle* particle = new Particle_halo(vpos);
 		ps.addParticle(particle);
 	}),
 
 		element_t(key_t(255.f, 285.f), [](const std::list< ci::Vec2f > &vpos, ParticleSystem &ps){  //4:15-4:45
-		Particle* particle = new Particle_horizon(vpos);
+		Particle* particle = new Particle_path(vpos);
 		ps.addParticle(particle);
 	}),
 		

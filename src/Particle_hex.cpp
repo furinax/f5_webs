@@ -11,19 +11,19 @@ using namespace ci::app;
 #include "Resources.h"
 
 Particle_hex::Particle_hex(const std::list< ci::Vec2f > &vpos){
-	mRadiusAnchor = 50.f;
+	mRadiusAnchor = .6f;
 	Listener &listener = Listener::getInstance();
-	mRadius = mRadiusAnchor * listener.getVolume();
+	mRadius = mRadiusAnchor * listener.getBinVolume(24);
 
 	mAnchorPosition = Vec3f(getWindowCenter(), 0);
-	drawHex(6, 0, 0, 100, 100);
+	drawHex(6, 0, 0, 200, 200);
+	
+	mColor = Color::black();
+	mOverlayColor = ci::Color(.1f, 0.1f, listener.getVolume()); mColor.a = 0.f;
 
-	mColor = ci::Color(1.f, listener.getVolume() * .5f, 0.f);
-	mOverlayColor = Color::white();
-
-	mVel = Vec3f(10.f * cos(getElapsedSeconds()), 10.f * sin(getElapsedSeconds()),0);
-	mDrag = 1.f;
-	mLifespan = 100;
+	mVel = Vec3f(mRadius * cos(getElapsedSeconds()), mRadius * sin(getElapsedSeconds()), 0);
+	mDrag = listener.getVolume();
+	mLifespan = 2 * listener.getBinVolume(40);
 
 }
 
@@ -46,7 +46,10 @@ void Particle_hex::update(const std::list< ci::Vec2f > &vpos){
 		mIsDead = true;
 
 	mAgeMap = 1.0f - (mAge / (float)mLifespan);
-	
+	mColor.a = mAgeMap * mAgeMap;
+	mOverlayColor.a = mAgeMap * mAgeMap;
+	mVel *= mDrag;
+
 	Listener &listener = Listener::getInstance();
 
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
@@ -54,10 +57,6 @@ void Particle_hex::update(const std::list< ci::Vec2f > &vpos){
 		(*iter) += mVel;
 		mVel.rotateZ(mAngle);
 	}
-	mColor.r = mAgeMap;
-	mColor.g = mAgeMap * listener.getVolume() * .5f;
-	mColor.b = 1 - mAgeMap;
-	mVel *= 1.2f * listener.getVolume();
 }
 
 void Particle_hex::draw(const bool overlay, const std::list < ci::Vec2f> &vpos){
@@ -69,7 +68,6 @@ void Particle_hex::draw(const bool overlay, const std::list < ci::Vec2f> &vpos){
 	{
 		adjustedColor = ColorA(mOverlayColor);
 	}
-	adjustedColor.a = mAgeMap;
 
 	gl::pushMatrices();
 	gl::translate(mAnchorPosition);
@@ -79,7 +77,7 @@ void Particle_hex::draw(const bool overlay, const std::list < ci::Vec2f> &vpos){
 
 		gl::color(adjustedColor);
 		glBegin(GL_LINES);
-		gl::vertex(Vec3f::zero() );
+		gl::vertex(Vec2f::zero() );
 		gl::vertex(loc);
 		glEnd();
 	}

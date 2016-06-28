@@ -50,7 +50,7 @@ public:
 	//perform: for synchronization to a track
 	void perform(const std::list< ci::Vec2f > &vpos, ParticleSystem & ps);
 
-	int d_particleToCreate = 2;
+	int d_particleToCreate = 16;
 	double d_offsetTime = 0;
 	double d_adjustSeconds = 0.f; //negative means delay the visuals, positive means speed them up
 

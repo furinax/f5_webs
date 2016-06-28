@@ -122,8 +122,8 @@ void f5_websApp::keyDown(KeyEvent event)
 void f5_websApp::update()
 {
 
-	//if (!mMusicPlayer.mIsStarted )
-	//mMusicPlayer.start();
+	if (!mMusicPlayer.mIsStarted )
+		mMusicPlayer.start();
 
 
 	// UPDATE CAMERA
@@ -145,7 +145,7 @@ void f5_websApp::update()
 	{
 
 		pss[i].update(mMousePosition);
-		pf.create(mMousePosition, pss[i]);
+		pf.perform(mMousePosition, pss[i]);
 		particleCount += pss[i].mParticles.size();
 	}
 	mTotalParticles = particleCount;

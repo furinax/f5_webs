@@ -33,6 +33,7 @@ Particle_ripple::Particle_ripple(const std::list< ci::Vec2f > &vpos){
 	mVel.rotateZ(getElapsedSeconds()* 2);
 
 	mLifespan = 25;
+	mDrag = .98f;
 
 }
 
@@ -42,7 +43,8 @@ void Particle_ripple::update(const std::list< ci::Vec2f > &vpos){
 		mIsDead = true;
 
 	mAgeMap = 1.0f - (mAge / (float)mLifespan);
-	mOverlayColor.a = .1f * mAgeMap;
+	mOverlayColor.a = .5f * mAgeMap;
+	mColor.a = .5f * mAgeMap;
 	mVel += mAcc;
 	mVel *= mDrag;
 
@@ -74,7 +76,6 @@ void Particle_ripple::draw(const bool overlay, const std::list< ci::Vec2f > &vpo
 	gl::lineWidth(5.f * mAgeMap);
 
 	glBegin(GL_LINE_LOOP);
-	adjustedColor.a = mAgeMap;
 	gl::color(adjustedColor);
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
 	{
