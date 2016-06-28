@@ -14,12 +14,12 @@ Particle_hex::Particle_hex(const std::list< ci::Vec2f > &vpos){
 	mRadiusAnchor = .6f;
 	Listener &listener = Listener::getInstance();
 	mRadius = mRadiusAnchor * listener.getBinVolume(24);
-
-	mAnchorPosition = Vec3f(getWindowCenter(), 0);
+	mLineWidth = 2.f;
+	mAnchorPosition = Vec3f(getWindowWidth()/2.f, getWindowHeight()/2.f, 0);
 	drawHex(6, 0, 0, 200, 200);
 	
 	mColor = Color::black();
-	mOverlayColor = ci::Color(.1f, 0.1f, listener.getVolume()); mColor.a = 0.f;
+	mOverlayColor = ci::Color(.3f, 0.1f, listener.getVolume());
 
 	mVel = Vec3f(mRadius * cos(getElapsedSeconds()), mRadius * sin(getElapsedSeconds()), 0);
 	mDrag = listener.getVolume();
@@ -48,7 +48,7 @@ void Particle_hex::update(const std::list< ci::Vec2f > &vpos){
 	mAgeMap = 1.0f - (mAge / (float)mLifespan);
 	mColor.a = mAgeMap * mAgeMap;
 	mOverlayColor.a = mAgeMap * mAgeMap;
-	mVel *= mDrag;
+	mVel *= mDrag * mDrag;
 
 	Listener &listener = Listener::getInstance();
 
@@ -74,8 +74,10 @@ void Particle_hex::draw(const bool overlay, const std::list < ci::Vec2f> &vpos){
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
 	{
 		Vec3f &loc = *iter;
-
+		Listener &listener = Listener::getInstance();
+		adjustedColor.a = listener.getBinVolume(40) / 100.f;
 		gl::color(adjustedColor);
+		//gl::lineWidth(mLineWidth);
 		glBegin(GL_LINES);
 		gl::vertex(Vec2f::zero() );
 		gl::vertex(loc);

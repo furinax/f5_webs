@@ -37,7 +37,7 @@ enum particle_choice
 	PARTICLE_TORRENT, //11 neural network
 	PARTICLE_HEX, //12 expanding spiral
 	PARTICLE_TRAIL, //13 simple history
-	PARTICLE_FFT, //14 bars
+	PARTICLE_FFT, //14 fft based vis
 	PARTICLE_RIPPLE, //15 expanding circles
 	PARTICLE_PATH //16 paths leading outwards
 };
@@ -50,7 +50,7 @@ public:
 	//perform: for synchronization to a track
 	void perform(const std::list< ci::Vec2f > &vpos, ParticleSystem & ps);
 
-	int d_particleToCreate = 16;
+	int d_particleToCreate = 12;
 	double d_offsetTime = 0;
 	double d_adjustSeconds = 0.f; //negative means delay the visuals, positive means speed them up
 

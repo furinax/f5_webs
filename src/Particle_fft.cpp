@@ -49,8 +49,6 @@ void Particle_fft::update(const std::list< ci::Vec2f > &vpos){
 
 	mAgeMap = 1.0f - (mAge / (float)mLifespan);
 
-
-
 	for (auto pos : mPositions)
 	{
 		pos += mVel;
@@ -67,38 +65,24 @@ void Particle_fft::draw(const bool overlay, const std::list< ci::Vec2f > &vpos){
 		adjustedColor = ColorA(mOverlayColor);
 	}
 	
+	int spoke = 0;
 	for (auto iter = mPositions.begin(); iter != mPositions.end(); iter++)
 	{
 		Vec3f &loc = *iter;
-
+		Listener &listener = Listener::getInstance();
+		adjustedColor.a = listener.getBinVolume(spoke);
 		gl::color(adjustedColor);
 		gl::lineWidth(3.f);
-		
-		Vec3f v1(loc), v2(loc), v3(loc), v4(loc);
-		v1.limit(mRadius);
-		v2.limit(mRadius);
-		if (v3.length() < mRadius)
-			v3 = Vec3f(v2);
-		if (v4.length() < mRadius)
-			v4 = Vec3f(v1);
-		else if (v4.length() > 600)
-			gl::color(ColorA(1.f, 0.f, 0.f, .8f));
-		v1.rotateZ(2 * M_PI / 180 );
-		v2.rotateZ(-2 * M_PI / 180);
-		v3.rotateZ(-2 * M_PI / 180);
-		v4.rotateZ(2 * M_PI / 180);
+		Vec3f v1 = Vec3f(loc);
 		gl::pushMatrices();
 		gl::translate(mAnchorPosition);
-		glBegin(GL_LINE_STRIP);
+		glBegin(GL_TRIANGLE_STRIP);
 		gl::vertex(v1);
-		gl::vertex(v2);
-		gl::vertex(v3);
-		gl::vertex(v4);
-		gl::vertex(v1);
+		gl::vertex(v1 * 10);
 		glEnd();
 		gl::popMatrices();
-
+		spoke++;
 	}
 	
-	//drawPositions();
+	drawPositions();
 }
