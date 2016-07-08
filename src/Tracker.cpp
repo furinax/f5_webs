@@ -14,11 +14,6 @@ Tracker::~Tracker()
 
 const std::list<ci::Vec2f> Tracker::getBlobCenters()
 {
-	/* old way
-	if (mBlobs.size() <= num )
-		return getWindowCenter();
-	return adjustScale(fromOcv(mBlobs[num].center)* mScaleUp) + mOffset;*/
-	
 	return mBlobCenters;
 }
 
@@ -28,7 +23,7 @@ void Tracker::setup()
 	try {
 		mCapture = Capture(
 			getWindowWidth() < WEBCAM_MAX_WIDTH ? getWindowWidth() : WEBCAM_MAX_WIDTH,
-			getWindowHeight() < WEBCAM_MAX_HEIGHT ? getWindowHeight() : WEBCAM_MAX_HEIGHT);//,
+			getWindowHeight() < WEBCAM_MAX_HEIGHT ? getWindowHeight() : WEBCAM_MAX_HEIGHT);
 			Capture::findDeviceByName("Logitech HD Pro Webcam C910");
 		mCapture.start();
 	}
@@ -41,15 +36,15 @@ void Tracker::setup()
 
 	//this is the 2nd algorithm
 	cv::SimpleBlobDetector::Params params;
-	params.minThreshold = 10;
+	params.minThreshold = 2;
 	params.maxThreshold = 255;
 	params.thresholdStep = 5;
 
-	params.minArea = 100; params.maxArea = 500;
-	params.minConvexity = 0.1f; params.maxConvexity = 5.f;
+	params.minArea = 20; params.maxArea = 2000;
+	params.minConvexity = 0.5f; params.maxConvexity = 1.f;
 	//params.minInertiaRatio = .001f; params.maxInertiaRatio = 1.f;
 
-	params.filterByConvexity = false;
+	params.filterByConvexity = true;
 	params.filterByArea = true;
 	params.filterByColor = false;
 	params.filterByCircularity = false;
@@ -99,11 +94,13 @@ void Tracker::update()
 			mBlobs.resize(maxBlobs);
 		}
 
-		mBlobCenters.clear();
-		for (auto iter = mBlobs.begin(); iter != mBlobs.end(); iter++)
+		if (mBlobCenters.size() == maxBlobs)
 		{
-			mBlobCenters.push_back(adjustScale(fromOcv(iter->center)*mScaleUp));
+			mPrevCenters = mBlobCenters;
 		}
+
+		mBlobCenters.clear();
+		std::for_each(mBlobs.begin(), mBlobs.end(), [&](myBlob &x) {mBlobCenters.push_back(adjustScale(fromOcv(x.center)*mScaleUp)); });
 	}
 	else
 	{

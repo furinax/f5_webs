@@ -31,7 +31,7 @@ class f5_websApp : public AppNative {
 	params::InterfaceGl		mParams;
 	int mTotalParticles = 0;
 	bool mParamsVisible = true;
-	bool mTrackerVisible = false;
+	bool mTrackerVisible = true;
 	bool mFullScreen = false;
 	float mVolume = 0;
 	MusicPlayer mMusicPlayer;
@@ -122,8 +122,8 @@ void f5_websApp::keyDown(KeyEvent event)
 void f5_websApp::update()
 {
 
-	if (!mMusicPlayer.mIsStarted )
-		mMusicPlayer.start();
+	//if (!mMusicPlayer.mIsStarted )
+	//	mMusicPlayer.start();
 
 
 	// UPDATE CAMERA
@@ -132,7 +132,7 @@ void f5_websApp::update()
 	gl::rotate(mSceneRotation);*/
 
 	// UPDATE TRACKER
-	//t.update();
+	t.update();
 
 	// UPDATE LISTENER
 	Listener& listener = Listener::getInstance();
@@ -144,8 +144,8 @@ void f5_websApp::update()
 	for (int i = 0; i < pss.size(); i++ )
 	{
 
-		pss[i].update(mMousePosition);
-		pf.perform(mMousePosition, pss[i]);
+		pss[i].update(t.getBlobCenters());
+		//pf.perform(mMousePosition, pss[i]);
 		particleCount += pss[i].mParticles.size();
 	}
 	mTotalParticles = particleCount;

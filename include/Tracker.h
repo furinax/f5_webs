@@ -44,7 +44,7 @@ public:
 	float mScaleDown;
 	Vec2f mScaleUp, mScaleUpAdjust;
 	cv::SimpleBlobDetector *mBlobDetector;
-	std::list<ci::Vec2f> mBlobCenters;
+	std::list<ci::Vec2f> mBlobCenters, mPrevCenters;
 
 	const int WEBCAM_MAX_WIDTH = 1280, WEBCAM_MAX_HEIGHT = 720;
 	int maxBlobs = 2;
