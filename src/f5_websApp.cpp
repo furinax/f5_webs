@@ -31,7 +31,7 @@ class f5_websApp : public AppNative {
 	params::InterfaceGl		mParams;
 	int mTotalParticles = 0;
 	bool mParamsVisible = true;
-	bool mTrackerVisible = true;
+	bool mTrackerVisible = false;
 	bool mFullScreen = false;
 	float mVolume = 0;
 	MusicPlayer mMusicPlayer;
@@ -145,7 +145,7 @@ void f5_websApp::update()
 	{
 
 		pss[i].update(t.getBlobCenters());
-		//pf.perform(mMousePosition, pss[i]);
+		pf.create(t.getBlobCenters(), pss[i]);
 		particleCount += pss[i].mParticles.size();
 	}
 	mTotalParticles = particleCount;
@@ -165,7 +165,7 @@ void f5_websApp::draw()
 	if (mParticlesVisible)
 	{
 		for (int i = 0; i < pss.size(); i++)
-			pss[i].draw(mMousePosition);
+			pss[i].draw(t.getBlobCenters());
 	}
 }
 

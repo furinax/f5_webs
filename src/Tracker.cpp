@@ -14,12 +14,19 @@ Tracker::~Tracker()
 
 const std::list<ci::Vec2f> Tracker::getBlobCenters()
 {
+	assert(!mPrevCenters.empty());
+	if (mBlobCenters.empty())
+	{
+		return mPrevCenters;
+	}
+	
 	return mBlobCenters;
 }
 
 void Tracker::setup()
 {
-	
+	mPrevCenters.push_back(getWindowCenter()); //init with two empty points
+	mPrevCenters.push_back(getWindowCenter());
 	try {
 		mCapture = Capture(
 			getWindowWidth() < WEBCAM_MAX_WIDTH ? getWindowWidth() : WEBCAM_MAX_WIDTH,
@@ -41,10 +48,10 @@ void Tracker::setup()
 	params.thresholdStep = 5;
 
 	params.minArea = 20; params.maxArea = 2000;
-	params.minConvexity = 0.5f; params.maxConvexity = 1.f;
+	//params.minConvexity = 0.5f; params.maxConvexity = 1.f;
 	//params.minInertiaRatio = .001f; params.maxInertiaRatio = 1.f;
 
-	params.filterByConvexity = true;
+	params.filterByConvexity = false;
 	params.filterByArea = true;
 	params.filterByColor = false;
 	params.filterByCircularity = false;
@@ -94,9 +101,9 @@ void Tracker::update()
 			mBlobs.resize(maxBlobs);
 		}
 
-		if (mBlobCenters.size() == maxBlobs)
+		if (mBlobCenters.size() > 0)
 		{
-			mPrevCenters = mBlobCenters;
+			std::transform(mBlobCenters.begin(), mBlobCenters.end(), mPrevCenters.begin(), [](Vec2f vec) { return vec + .8*( vec - getWindowCenter()); });
 		}
 
 		mBlobCenters.clear();
