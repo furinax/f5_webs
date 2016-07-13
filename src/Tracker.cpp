@@ -41,15 +41,12 @@ void Tracker::setup()
 	mScaleDown = 2.5f;
 	mScaleUp = Vec2f(mScaleDown, mScaleDown);
 
-	//this is the 2nd algorithm
 	cv::SimpleBlobDetector::Params params;
-	params.minThreshold = 2;
-	params.maxThreshold = 255;
+	params.minThreshold = 15;
+	params.maxThreshold = 150;
 	params.thresholdStep = 5;
 
-	params.minArea = 20; params.maxArea = 2000;
-	//params.minConvexity = 0.5f; params.maxConvexity = 1.f;
-	//params.minInertiaRatio = .001f; params.maxInertiaRatio = 1.f;
+	params.minArea = 20; params.maxArea = 200;
 
 	params.filterByConvexity = false;
 	params.filterByArea = true;
