@@ -108,58 +108,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\CatmullRom.cpp" />
-    <ClCompile Include="..\src\f5_websApp.cpp" />
+    <ClCompile Include="..\src\f6_structure.cpp" />
     <ClCompile Include="..\src\Listener.cpp" />
-    <ClCompile Include="..\src\MusicPlayer.cpp" />
     <ClCompile Include="..\src\Particle.cpp" />
     <ClCompile Include="..\src\ParticleFactory.cpp" />
     <ClCompile Include="..\src\ParticleSystem.cpp" />
     <ClCompile Include="..\src\Particle_circle.cpp" />
-    <ClCompile Include="..\src\Particle_fft.cpp" />
-    <ClCompile Include="..\src\Particle_field.cpp" />
-    <ClCompile Include="..\src\Particle_path.cpp" />
-    <ClCompile Include="..\src\Particle_ripple.cpp" />
-    <ClCompile Include="..\src\Particle_flat.cpp" />
-    <ClCompile Include="..\src\Particle_halo.cpp" />
-    <ClCompile Include="..\src\Particle_helix.cpp" />
-    <ClCompile Include="..\src\Particle_horizon.cpp" />
-    <ClCompile Include="..\src\Particle_quad.cpp" />
-    <ClCompile Include="..\src\Particle_queue.cpp" />
-    <ClCompile Include="..\src\Particle_sphere.cpp" />
-    <ClCompile Include="..\src\Particle_spring.cpp" />
-    <ClCompile Include="..\src\Particle_hex.cpp" />
-    <ClCompile Include="..\src\Particle_text.cpp" />
-    <ClCompile Include="..\src\Particle_torrent.cpp" />
-    <ClCompile Include="..\src\Particle_trail.cpp" />
-    <ClCompile Include="..\src\Tracker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\CatmullRom.h" />
     <ClInclude Include="..\include\Listener.h" />
-    <ClInclude Include="..\include\MusicPlayer.h" />
     <ClInclude Include="..\include\Particle.h" />
     <ClInclude Include="..\include\ParticleFactory.h" />
     <ClInclude Include="..\include\ParticleSystem.h" />
     <ClInclude Include="..\include\ParticleTrack.h" />
     <ClInclude Include="..\include\Particle_circle.h" />
-    <ClInclude Include="..\include\Particle_fft.h" />
-    <ClInclude Include="..\include\Particle_field.h" />
-    <ClInclude Include="..\include\Particle_path.h" />
-    <ClInclude Include="..\include\Particle_ripple.h" />
-    <ClInclude Include="..\include\Particle_flat.h" />
-    <ClInclude Include="..\include\Particle_halo.h" />
-    <ClInclude Include="..\include\Particle_helix.h" />
-    <ClInclude Include="..\include\Particle_horizon.h" />
-    <ClInclude Include="..\include\Particle_quad.h" />
-    <ClInclude Include="..\include\Particle_queue.h" />
-    <ClInclude Include="..\include\Particle_sphere.h" />
-    <ClInclude Include="..\include\Particle_spring.h" />
-    <ClInclude Include="..\include\Particle_hex.h" />
-    <ClInclude Include="..\include\Particle_text.h" />
-    <ClInclude Include="..\include\Particle_torrent.h" />
-    <ClInclude Include="..\include\Particle_trail.h" />
     <ClInclude Include="..\include\Resources.h" />
-    <ClInclude Include="..\include\Tracker.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\resources\blur_frag.glsl" />
